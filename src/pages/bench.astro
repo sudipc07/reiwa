@@ -1,0 +1,58 @@
+---
+import Base from '@/layouts/Base.astro';
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import DarkSection from '@/components/ui/DarkSection.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import AdvisorCard from '@/components/bench/AdvisorCard.astro';
+import { advisors } from '@/data/advisors';
+---
+
+<Base
+  title="The Bench — Reiwa Consultancy"
+  description="Eleven senior practitioners. Nearly three centuries of operating experience at the Japan–India–SEA corridor."
+>
+
+  <!-- Hero -->
+  <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
+    <div class="container-narrow">
+      <MicroLabel class="mb-6 block">The Bench</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 1.5rem; max-width: 22ch;">
+        Eleven practitioners.<br />
+        <em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">Nearly three centuries of operating experience.</em>
+      </h1>
+      <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 52ch;">
+        One Principal anchors the practice. Five Partners lead domains. Five Advisors specialise deeply. Every member has operated at senior levels in real businesses.
+      </p>
+    </div>
+  </section>
+
+  <!-- Advisor grid -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;" id="advisor-grid">
+        {advisors.map((advisor, i) => (
+          <ScrollReveal client:load delay={Math.min(i * 0.05, 0.3)}>
+            <AdvisorCard advisor={advisor} />
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How we compose a team -->
+  <DarkSection>
+    <ScrollReveal client:load>
+      <MicroLabel light class="mb-6 block">How we compose a team</MicroLabel>
+      <p style="font-size: 1.0625rem; line-height: 1.8; max-width: 56ch; opacity: 0.8;">
+        Most engagements involve two or three bench members. The composition depends on the work. A Japan market-entry study might draw Anil, Ken, and Tom. A Singapore executive search draws Swati and Prakash. A cross-border acquisition draws Anil, Puneet, and Mukul. The bench composes itself around the problem, not the other way round.
+      </p>
+    </ScrollReveal>
+  </DarkSection>
+
+</Base>
+
+<style>
+  @media (min-width: 900px) {
+    #advisor-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+</style>

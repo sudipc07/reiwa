@@ -1,0 +1,106 @@
+---
+import Base from '@/layouts/Base.astro';
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import DarkSection from '@/components/ui/DarkSection.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+
+const services = [
+  {
+    n: '01',
+    name: 'Market Entry Strategies',
+    body: 'Research, entry planning, and risk assessment for companies crossing into Japan, India, or SEA. The first eighteen months are where most market entries succeed or fail. We spend the early weeks challenging the assumptions in the plan before writing a new one.',
+  },
+  {
+    n: '02',
+    name: 'Cross-Cultural Advisory',
+    body: 'The part most consultancies skip. Japanese senior executives read a proposal very differently from Indian ones. We advise CEOs and CXOs on the specific meetings they are about to walk into — not in the abstract, but in the particular.',
+  },
+  {
+    n: '03',
+    name: 'HR Advisory',
+    body: 'People strategy for multi-country operations. Running an India–Japan–SEA workforce on a single HR playbook is expensive. We bring senior talent strategy, compensation design, and cross-border workforce management grounded in how these markets actually work.',
+  },
+  {
+    n: '04',
+    name: 'Business Growth Advisory',
+    body: 'Partner identification, distribution design, the right first hires, the slow building of reputation. We do this work alongside senior client teams, not as a deck from a distance.',
+  },
+  {
+    n: '05',
+    name: 'Regulatory Compliance',
+    body: 'Three jurisdictions, three regulatory regimes. We work with specialist legal counsel in each and provide the senior oversight layer that turns their advice into something a CFO can act on.',
+  },
+  {
+    n: '06',
+    name: 'Financial Advisory',
+    body: 'Led by Puneet Nayyar, FCA — M&A, due diligence, IFRS, financial planning, funding advisory. The strategic financial thinking that mid-cap Japan–India corridor businesses often need and rarely get at this seniority.',
+  },
+];
+---
+
+<Base
+  title="Services — Reiwa Consultancy"
+  description="Six shapes the work tends to take — market entry, cross-cultural advisory, HR, business growth, compliance, and financial advisory."
+>
+
+  <!-- Hero -->
+  <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
+    <div class="container-narrow">
+      <MicroLabel class="mb-6 block">Services</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 1.5rem; max-width: 22ch;">
+        Six shapes the work<br />
+        <em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">tends to take.</em>
+      </h1>
+      <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 56ch;">
+        These are not products. A client rarely arrives needing exactly one. Most engagements cut across two or three. We describe them here as shapes — entry points into a conversation about what the work actually requires.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services numbered list -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <div style="display: flex; flex-direction: column;">
+        {services.map((svc, i) => (
+          <ScrollReveal client:load delay={i * 0.08}>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--border);">
+              <span style="font-family: 'Noto Serif', serif; font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; color: rgba(0,0,0,0.08); line-height: 1; padding-top: 0.125rem; min-width: 3rem;">{svc.n}</span>
+              <div>
+                <h2 style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: clamp(1.125rem, 2vw, 1.375rem); color: var(--ink); margin-bottom: 0.875rem; letter-spacing: -0.01em;">{svc.name}</h2>
+                <p style="font-size: 1rem; color: var(--ink-muted); line-height: 1.75; max-width: 56ch;" set:html={svc.body} />
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How to engage — dark -->
+  <DarkSection>
+    <ScrollReveal client:load>
+      <p style="font-family: 'Noto Serif', serif; font-size: clamp(1.125rem, 2vw, 1.375rem); font-weight: 600; margin-bottom: 2rem; opacity: 0.9;">
+        A short path to a first conversation.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 44ch; margin-bottom: 2.5rem;">
+        {[
+          'An intro call — thirty minutes, no cost, no commitment.',
+          'A scope note — what we\'d do, what we wouldn\'t, approximate timeline and fees.',
+          'An engagement letter — short, signed, and we begin.',
+        ].map((step, i) => (
+          <p style="font-size: 1rem; opacity: 0.75; line-height: 1.7; display: flex; gap: 1rem; align-items: baseline;">
+            <span style="font-family: 'Noto Serif', serif; opacity: 0.35; flex-shrink: 0;">{String(i + 1).padStart(2, '0')}</span>
+            {step}
+          </p>
+        ))}
+      </div>
+      <a href="/contact" style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.9375rem; color: var(--accent); text-decoration: none; transition: gap 150ms ease;"
+         onmouseover="this.style.gap='0.75rem'"
+         onmouseout="this.style.gap='0.5rem'"
+      >
+        → Start a conversation
+      </a>
+    </ScrollReveal>
+  </DarkSection>
+
+</Base>

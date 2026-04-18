@@ -1,0 +1,46 @@
+---
+import type { Advisor } from '@/data/advisors';
+import GlassCard from '@/components/ui/GlassCard.astro';
+
+interface Props {
+  advisor: Advisor;
+}
+const { advisor } = Astro.props;
+---
+
+<GlassCard hover class="p-8">
+  <div style="display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 1.5rem;">
+    <!-- Photo or initials -->
+    {advisor.photo ? (
+      <img
+        src={advisor.photo}
+        alt={advisor.name}
+        style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: top; flex-shrink: 0; border: 1px solid var(--border);"
+      />
+    ) : (
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(192,57,43,0.07); border: 1px solid rgba(192,57,43,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <span style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 1.125rem; color: var(--accent);">{advisor.initials}</span>
+      </div>
+    )}
+    <div>
+      <p style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-subtle); margin-bottom: 0.25rem; font-family: 'Inter', sans-serif;">{advisor.role}</p>
+      <h2 style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 1.125rem; color: var(--ink); margin-bottom: 0.125rem; line-height: 1.2;">{advisor.name}</h2>
+      <p style="font-size: 0.875rem; color: var(--ink-muted);">{advisor.title.replace(/^(Partner|Advisor|Principal),\s*/, '')}</p>
+    </div>
+  </div>
+
+  <p style="font-size: 0.875rem; color: var(--ink-subtle); font-style: italic; margin-bottom: 1.5rem; line-height: 1.5; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">{advisor.credential}</p>
+
+  <div style="display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 1.5rem;">
+    {advisor.bio.map(para => (
+      <p style="font-size: 0.9375rem; color: var(--ink-muted); line-height: 1.7;">{para}</p>
+    ))}
+  </div>
+
+  <!-- Tags -->
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+    {advisor.tags.map(tag => (
+      <span style="font-size: 0.75rem; font-family: 'Inter', sans-serif; color: var(--ink-subtle); border: 1px solid var(--border); border-radius: 100px; padding: 0.2rem 0.75rem; line-height: 1.6;">{tag}</span>
+    ))}
+  </div>
+</GlassCard>

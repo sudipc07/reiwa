@@ -1,0 +1,15 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<section
+  class:list={['section-pad', className]}
+  style="background: var(--canvas-dark); color: var(--ink-inverse);"
+>
+  <div class="container-narrow">
+    <slot />
+  </div>
+</section>

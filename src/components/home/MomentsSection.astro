@@ -1,0 +1,40 @@
+---
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+---
+
+<section class="section-pad" style="background: var(--canvas);">
+  <div class="container-narrow">
+    <ScrollReveal client:load>
+      <MicroLabel class="mb-8 block">Moments we recognise</MicroLabel>
+
+      <h2 style="font-family: 'Noto Serif', serif; font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 600; color: var(--ink); margin-bottom: 2.5rem; max-width: 36ch; line-height: 1.25; letter-spacing: -0.02em;">
+        Companies come to us at specific moments.
+      </h2>
+
+      <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 60ch;">
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; border-left: 2px solid var(--border); padding-left: 1.5rem;">
+          A Japanese mid-cap studying an Indian acquisition, uneasy about the cultural texture of the deal.
+        </p>
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; border-left: 2px solid var(--border); padding-left: 1.5rem;">
+          An Indian group entering Japan, with an internal plan that is likely wrong in ways they cannot yet see.
+        </p>
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; border-left: 2px solid var(--border); padding-left: 1.5rem;">
+          A European firm whose Southeast Asia joint venture is performing well on paper and quietly failing in the room.
+        </p>
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; border-left: 2px solid var(--border); padding-left: 1.5rem;">
+          A CEO whose India office and Tokyo office are speaking past each other in a language neither realises they are speaking.
+        </p>
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+        <p style="font-family: 'Noto Serif', serif; font-style: italic; font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.7;">
+          These moments share a shape: urgency without clarity. Our first work is usually to listen, and then to slow the decision down enough that the decision becomes visible.
+        </p>
+        <p style="margin-top: 1.25rem; font-family: 'Noto Serif', serif; font-style: italic; font-size: 1rem; color: var(--ink-subtle);">
+          If you recognise your situation in one of these, keep reading.
+        </p>
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import CorridorDiagram from '@/components/home/CorridorDiagram.tsx';
+---
+
+<section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+  <div class="container-narrow">
+    <div style="display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start;">
+
+      <ScrollReveal client:load>
+        <MicroLabel class="mb-8 block">What this practice offers</MicroLabel>
+
+        <h2 style="font-family: 'Noto Serif', serif; font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 600; color: var(--ink); margin-bottom: 2rem; max-width: 32ch; line-height: 1.25; letter-spacing: -0.02em;">
+          Judgment. Not scale, not frameworks, not a delivery team.
+        </h2>
+
+        <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 56ch;">
+          <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75;">
+            The people who scope an engagement are the people who do the work. Every Reiwa engagement is led by a named senior practitioner — someone who has operated at senior levels in real businesses, across real markets, in the languages of the room.
+          </p>
+          <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75;">
+            Between them, the bench brings nearly three centuries of operating experience at this corridor. We work where that kind of judgment is worth the premium. We decline where it isn't.
+          </p>
+        </div>
+
+        <CorridorDiagram client:load />
+      </ScrollReveal>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 900px) {
+    section > div > div {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

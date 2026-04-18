@@ -1,0 +1,98 @@
+---
+const navLinks = [
+  { href: '/practice', label: 'Practice' },
+  { href: '/bench', label: 'Bench' },
+  { href: '/services', label: 'Services' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  style="position: sticky; top: 0; z-index: 50; background: rgba(246,243,237,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);"
+>
+  <div class="container-narrow" style="display: flex; align-items: center; justify-content: space-between; height: 4rem;">
+
+    <!-- Logo + wordmark -->
+    <a href="/" aria-label="Reiwa Consultancy home" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+      <img src="/logo-rewa-1-1.png" alt="Reiwa logo" width="40" height="40" style="width: 40px; height: 40px; object-fit: contain;" />
+      <div style="line-height: 1.2;">
+        <div style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 0.9375rem; color: var(--ink); letter-spacing: -0.01em;">Reiwa Consultancy</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.6875rem; color: var(--ink-subtle); letter-spacing: 0.05em; font-variant: small-caps;">&amp; Management Solutions LLP</div>
+      </div>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Main navigation" style="display: none;" class="desktop-nav">
+      <ul style="display: flex; align-items: center; gap: 2rem; list-style: none; margin: 0; padding: 0;">
+        {navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              style={`font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500; color: ${currentPath.startsWith(link.href) ? 'var(--accent)' : 'var(--ink-muted)'}; text-decoration: none; transition: color 150ms ease;`}
+              onmouseover="this.style.color='var(--ink)'"
+              onmouseout={`this.style.color='${currentPath.startsWith(link.href) ? 'var(--accent)' : 'var(--ink-muted)'}'`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="nav-toggle"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="mobile-toggle"
+      style="background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--ink); display: flex; flex-direction: column; gap: 5px;"
+    >
+      <span style="display: block; width: 22px; height: 1.5px; background: currentColor; transition: transform 200ms ease, opacity 200ms ease;" class="bar-1"></span>
+      <span style="display: block; width: 22px; height: 1.5px; background: currentColor; transition: transform 200ms ease, opacity 200ms ease;" class="bar-2"></span>
+      <span style="display: block; width: 22px; height: 1.5px; background: currentColor; transition: transform 200ms ease, opacity 200ms ease;" class="bar-3"></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav
+    id="mobile-nav"
+    aria-label="Mobile navigation"
+    style="display: none; border-top: 1px solid var(--border);"
+  >
+    <ul style="list-style: none; margin: 0; padding: 1rem 0;">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            style={`display: block; padding: 0.75rem clamp(1.5rem, 5vw, 4rem); font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 500; color: ${currentPath.startsWith(link.href) ? 'var(--accent)' : 'var(--ink)'}; text-decoration: none;`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  @media (min-width: 768px) {
+    .desktop-nav { display: block !important; }
+    .mobile-toggle { display: none !important; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  const bars = document.querySelectorAll('.bar-1, .bar-2, .bar-3');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = mobileNav?.style.display === 'block';
+    if (mobileNav) mobileNav.style.display = isOpen ? 'none' : 'block';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>

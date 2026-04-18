@@ -1,0 +1,94 @@
+---
+import Base from '@/layouts/Base.astro';
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import GlassCard from '@/components/ui/GlassCard.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import EpisodeCard from '@/components/insights/EpisodeCard.astro';
+import { episodes } from '@/data/episodes';
+---
+
+<Base
+  title="Insights — Reiwa Consultancy"
+  description="Notes from the corridor. A slowly-growing collection of conversations and observations from the Japan–India–SEA business corridor."
+>
+
+  <!-- Hero -->
+  <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
+    <div class="container-narrow">
+      <MicroLabel class="mb-6 block">Insights</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 1.5rem; max-width: 20ch;">
+        Notes from<br />
+        <em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">the corridor.</em>
+      </h1>
+      <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 50ch;">
+        A slowly-growing collection of conversations and observations from the Japan–India–Southeast Asia business corridor.
+      </p>
+    </div>
+  </section>
+
+  <!-- Podcast section -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <ScrollReveal client:load>
+        <MicroLabel class="mb-4 block">Podcast Series</MicroLabel>
+        <h2 style="font-family: 'Noto Serif', serif; font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; color: var(--ink); margin-bottom: 2.5rem; max-width: 40ch; line-height: 1.3; letter-spacing: -0.015em;">
+          Building Strategic Partnerships between India &amp; Japan.
+        </h2>
+
+        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;" id="episode-grid">
+          {episodes.map((episode, i) => (
+            <ScrollReveal client:load delay={i * 0.08}>
+              <EpisodeCard episode={episode} />
+            </ScrollReveal>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  <!-- Written notes stub -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <ScrollReveal client:load>
+        <MicroLabel class="mb-6 block">Written Notes</MicroLabel>
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 48ch; margin-bottom: 2rem;">
+          In due course, Reiwa will publish written commentary alongside the podcast. When we do, it will be because we have something useful to say.
+        </p>
+        <GlassCard class="p-6" style="max-width: 28rem;">
+          <p style="font-size: 0.875rem; color: var(--ink-muted); margin-bottom: 1rem;">Leave your email to be notified.</p>
+          <div id="notify-form">
+            <form style="display: flex; gap: 0.75rem; flex-wrap: wrap;" onsubmit="
+              event.preventDefault();
+              document.getElementById('notify-form').innerHTML = '<p style=\"font-size:0.9375rem; color:var(--ink-muted);\">Thank you. We\'ll be in touch when there\'s something worth reading.</p>';
+            ">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                required
+                aria-label="Email address"
+                style="flex: 1; min-width: 180px; padding: 0.625rem 0.875rem; border: 1px solid var(--border); border-radius: 8px; background: transparent; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--ink); outline: none;"
+                onfocus="this.style.borderColor='var(--accent)'"
+                onblur="this.style.borderColor='var(--border)'"
+              />
+              <button
+                type="submit"
+                style="padding: 0.625rem 1.25rem; background: var(--canvas-dark); color: var(--ink-inverse); border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: opacity 150ms ease; white-space: nowrap;"
+                onmouseover="this.style.opacity='0.85'"
+                onmouseout="this.style.opacity='1'"
+              >
+                Notify me
+              </button>
+            </form>
+          </div>
+        </GlassCard>
+      </ScrollReveal>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  @media (min-width: 768px) {
+    #episode-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+</style>

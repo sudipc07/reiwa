@@ -1,0 +1,89 @@
+---
+import Base from '@/layouts/Base.astro';
+import GlassCard from '@/components/ui/GlassCard.astro';
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import ContactForm from '@/components/contact/ContactForm.tsx';
+---
+
+<Base
+  title="Contact — Reiwa Consultancy"
+  description="Start a conversation. Thirty minutes, no pitch."
+>
+
+  <!-- Hero -->
+  <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
+    <div class="container-narrow">
+      <MicroLabel class="mb-6 block">Contact</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 1.5rem; max-width: 18ch;">
+        Start a<br />
+        <em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">conversation.</em>
+      </h1>
+      <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 48ch;">
+        Tell us briefly what you are working on. Anil or the right bench member will reply within two business days. We read every message personally.
+      </p>
+    </div>
+  </section>
+
+  <!-- Form + details -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;" id="contact-grid">
+
+        <!-- Contact form -->
+        <ScrollReveal client:load>
+          <GlassCard class="p-8 md:p-10">
+            <ContactForm client:load />
+          </GlassCard>
+        </ScrollReveal>
+
+        <!-- Direct + office -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <ScrollReveal client:load delay={0.1}>
+            <GlassCard class="p-8">
+              <p class="micro-label" style="margin-bottom: 1rem;">Or reach us directly</p>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="mailto:info@reiwaconsultancy.in" class="accent-link" style="font-size: 1rem; font-weight: 500;">
+                  info@reiwaconsultancy.in
+                </a>
+                <a href="tel:+919818071196" class="accent-link" style="font-size: 1rem; font-weight: 500;">
+                  +91 98180 71196
+                </a>
+              </div>
+            </GlassCard>
+          </ScrollReveal>
+
+          <ScrollReveal client:load delay={0.15}>
+            <GlassCard class="p-8">
+              <p class="micro-label" style="margin-bottom: 1rem;">Office</p>
+              <address style="font-style: normal; font-size: 0.9375rem; color: var(--ink-muted); line-height: 1.7;">
+                Unit 914, Tower 1<br />
+                Assotech Business Cresterra<br />
+                Sector 135, Noida<br />
+                Uttar Pradesh 201304, India
+              </address>
+              <a
+                href="https://maps.google.com/?q=Assotech+Business+Cresterra+Sector+135+Noida"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display: inline-flex; align-items: center; gap: 0.375rem; margin-top: 1rem; font-size: 0.875rem; color: var(--accent); text-decoration: none; transition: opacity 150ms ease;"
+                onmouseover="this.style.opacity='0.75'"
+                onmouseout="this.style.opacity='1'"
+              >
+                Open in Google Maps ↗
+              </a>
+            </GlassCard>
+          </ScrollReveal>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  @media (min-width: 900px) {
+    #contact-grid { grid-template-columns: 1fr 380px !important; }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  class?: string;
+  light?: boolean;
+}
+const { class: className = '', light = false } = Astro.props;
+---
+
+<span
+  class:list={['micro-label', { 'opacity-60': light }, className]}
+  style={light ? 'color: var(--ink-inverse)' : ''}
+>
+  <slot />
+</span>

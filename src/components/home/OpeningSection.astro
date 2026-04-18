@@ -1,0 +1,35 @@
+---
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import BreathingGrid from '@/components/home/BreathingGrid.tsx';
+---
+
+<section
+  style="position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; background: var(--canvas);"
+>
+  <BreathingGrid client:load />
+
+  <div class="container-narrow" style="position: relative; z-index: 1; padding-top: 6rem; padding-bottom: 6rem;">
+    <div style="max-width: 52rem;">
+      <MicroLabel class="mb-6 block">Japan · India · SEA</MicroLabel>
+
+      <h1 class="display-text" style="margin-bottom: 1.5rem; color: var(--ink);">
+        A senior advisory practice<br />
+        <em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">at the Japan–India–Southeast Asia corridor.</em>
+      </h1>
+
+      <div style="width: 2.5rem; height: 1px; background: var(--accent); margin-bottom: 2rem;"></div>
+
+      <p style="font-size: clamp(1rem, 1.5vw, 1.125rem); color: var(--ink-muted); line-height: 1.7; max-width: 44ch;">
+        Founded by Anil Gupta — formerly Chairman and Managing Director of NEC Technologies India. Forty years at this interface. Bilingual. A bench of eleven.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes gradient-drift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+</style>
