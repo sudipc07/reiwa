@@ -234,10 +234,10 @@
   /* Display type */
   .display-text {
     font-family: 'Noto Serif', Georgia, serif;
-    font-size: clamp(2rem, 4.8vw, 3.75rem);
+    font-size: clamp(1.5rem, 3.4vw, 2.75rem);
     font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.022em;
+    line-height: 1.4;
+    letter-spacing: -0.018em;
     text-wrap: balance;
   }
 
@@ -260,7 +260,7 @@
   /* Lead paragraph — the denser Inter intro under the hero */
   .lead {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(1.125rem, 1.45vw, 1.3125rem);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
     color: var(--ink-muted);
     line-height: 1.72;
     letter-spacing: -0.003em;

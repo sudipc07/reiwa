@@ -94,18 +94,15 @@ const isActive = (href: string) =>
     top: 0;
     z-index: 50;
     isolation: isolate;
+    /* Constant layout — no transitions on padding/height. See plan:
+       /Users/sudiptohome/.claude/plans/so-what-s-your-plna-snug-island.md */
     padding-bottom: 3rem;
-    background:
-      linear-gradient(180deg, rgba(246, 243, 237, 0.92) 0%, rgba(244, 241, 235, 0.82) 100%);
-    backdrop-filter: blur(22px) saturate(1.12);
-    -webkit-backdrop-filter: blur(22px) saturate(1.12);
-    transition:
-      background 380ms cubic-bezier(0.22, 1, 0.36, 1),
-      padding-bottom 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    background: rgba(246, 243, 237, 0.92);
+    transition: background 380ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   #site-nav[data-scrolled='true'] {
-    padding-bottom: 1.25rem;
+    background: rgba(246, 243, 237, 0.97);
   }
 
 
@@ -143,9 +140,16 @@ const isActive = (href: string) =>
     z-index: 1;
   }
   .shoji-rail-top    { top: 0; }
-  .shoji-rail-bottom { bottom: 0; }
+  .shoji-rail-bottom {
+    bottom: 0;
+    will-change: transform;
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+                background 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
   #site-nav[data-scrolled='true'] .shoji-rail-bottom {
+    /* Raise the line visually — transform only, no layout reflow. */
+    transform: translateY(-28px);
     background: linear-gradient(90deg,
       transparent 0%,
       rgba(40, 30, 22, 0.28) 50%,
@@ -178,12 +182,7 @@ const isActive = (href: string) =>
     align-items: center;
     column-gap: clamp(1.5rem, 4vw, 3.5rem);
     height: 5.25rem;
-    transition: height var(--t-base) var(--ease-out-quint);
     z-index: 2;
-  }
-
-  #site-nav[data-scrolled='true'] .nav-inner {
-    height: 4.25rem;
   }
 
   /* ===== Brand / Hanko seal ===== */
@@ -196,13 +195,16 @@ const isActive = (href: string) =>
     justify-self: center;
     gap: 0.55rem;
     transform-origin: top center;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     will-change: transform;
     transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 3;
   }
 
   #site-nav[data-scrolled='true'] .brand {
-    transform: scale(0.68);
+    transform: translateZ(0) scale(0.68);
   }
 
   .hanko {
@@ -211,7 +213,9 @@ const isActive = (href: string) =>
     height: 128px;
     display: grid;
     place-items: center;
-    transform: translateY(44px);
+    transform: translate3d(0, 44px, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   /* Soft halo behind the seal */
@@ -568,11 +572,30 @@ const isActive = (href: string) =>
   const toggle = document.getElementById('nav-toggle');
   const mobile = document.getElementById('mobile-nav');
 
-  const onScroll = () => {
+  // Hysteresis + rAF coalescing. Single-threshold toggles oscillate on
+  // inertial scroll (trackpad / wheel momentum hits y=8 repeatedly);
+  // each toggle restarts the Chrome transition from mid-interpolation and
+  // reads as flicker. The 20px dead zone (4–24) absorbs that jitter.
+  let scrolled = false;
+  let ticking = false;
+  const applyScrollState = () => {
+    ticking = false;
     if (!nav) return;
-    nav.setAttribute('data-scrolled', String(window.scrollY > 8));
+    const y = window.scrollY;
+    if (!scrolled && y > 24) {
+      scrolled = true;
+      nav.setAttribute('data-scrolled', 'true');
+    } else if (scrolled && y < 4) {
+      scrolled = false;
+      nav.setAttribute('data-scrolled', 'false');
+    }
   };
-  onScroll();
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(applyScrollState);
+  };
+  applyScrollState();
   window.addEventListener('scroll', onScroll, { passive: true });
 
   toggle?.addEventListener('click', () => {
