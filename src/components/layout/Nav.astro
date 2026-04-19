@@ -18,8 +18,6 @@ const isActive = (href: string) =>
 
 <header id="site-nav" aria-label="Primary">
 
-  <!-- Shoji lattice: kumiko vertical members across the nav -->
-  <span class="shoji-lattice" aria-hidden="true"></span>
   <span class="shoji-rail shoji-rail-top" aria-hidden="true"></span>
   <span class="shoji-rail shoji-rail-bottom" aria-hidden="true"></span>
 
@@ -428,11 +426,13 @@ const isActive = (href: string) =>
 
   .nav-link.active::before {
     content: '';
+    position: absolute;
+    left: -14px;
+    top: 50%;
     width: 5px;
     height: 5px;
     background: var(--accent);
-    transform: rotate(45deg);
-    flex-shrink: 0;
+    transform: translateY(-50%) rotate(45deg);
   }
 
   .nav-underline {
