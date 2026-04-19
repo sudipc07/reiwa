@@ -2,14 +2,22 @@
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
-export default function BreathingGrid() {
+/**
+ * CorridorLines — the hero's living backdrop.
+ *
+ * Three hairline arcs connecting Tokyo → Delhi/Mumbai → Singapore.
+ * On each arc, a single small packet travels slowly (20s+ per cycle),
+ * punctuated by a slow breathing pulse.
+ *
+ * Mobile / reduced-motion: gentle static gradient, no canvas, no motion.
+ */
+export default function CorridorLines() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -9999, y: -9999 });
-  const pulseRef = useRef(0);
   const rafRef = useRef<number>(0);
   const shouldReduce = useReducedMotion();
 
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+  const isMobile =
+    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
 
   useEffect(() => {
     if (shouldReduce || isMobile) return;
@@ -19,77 +27,132 @@ export default function BreathingGrid() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const CELL = 44;
-    let width = 0;
-    let height = 0;
+    let dpr = window.devicePixelRatio || 1;
+    let W = 0;
+    let H = 0;
 
     function resize() {
       if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      dpr = window.devicePixelRatio || 1;
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const handleMouse = (e: MouseEvent) => {
-      const rect = canvas!.getBoundingClientRect();
-      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // Normalised arc endpoints (0–1) — visual composition, not literal geography.
+    // Tokyo top-right → Delhi/Mumbai mid-left → Singapore bottom-right.
+    const arcs = [
+      // Tokyo → Delhi
+      { a: [0.78, 0.22], b: [0.22, 0.58], c: [0.44, 0.30] },
+      // Delhi → Singapore
+      { a: [0.22, 0.58], b: [0.76, 0.82], c: [0.58, 0.84] },
+      // Tokyo → Singapore (long diagonal, bowed out)
+      { a: [0.78, 0.22], b: [0.76, 0.82], c: [0.92, 0.52] },
+    ];
+
+    // Anchor city dots
+    const cities = [
+      [0.78, 0.22],
+      [0.22, 0.58],
+      [0.76, 0.82],
+    ];
+
+    const quadPoint = (t: number, a: number[], c: number[], b: number[]) => {
+      const u = 1 - t;
+      return [
+        u * u * a[0] + 2 * u * t * c[0] + t * t * b[0],
+        u * u * a[1] + 2 * u * t * c[1] + t * t * b[1],
+      ];
     };
-    window.addEventListener('mousemove', handleMouse, { passive: true });
 
-    let lastPulseTime = 0;
-    const PULSE_INTERVAL = 6000;
+    const startTime = performance.now();
 
-    function draw(timestamp: number) {
+    function draw(now: number) {
       if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
+      const elapsed = (now - startTime) / 1000;
+      ctx.clearRect(0, 0, W, H);
 
-      // Pulse phase
-      if (timestamp - lastPulseTime > PULSE_INTERVAL) {
-        lastPulseTime = timestamp;
-        pulseRef.current = timestamp;
-      }
-      const elapsed = timestamp - pulseRef.current;
-      const pulseOpacity = elapsed < 1200
-        ? 0.04 + 0.04 * Math.sin((elapsed / 1200) * Math.PI)
-        : 0.04;
+      // Slow breathing — 0.85 → 1.0 → 0.85 over 8s
+      const breath = 0.85 + 0.15 * (Math.sin((elapsed * Math.PI * 2) / 8) * 0.5 + 0.5);
 
-      const cols = Math.ceil(width / CELL) + 1;
-      const rows = Math.ceil(height / CELL) + 1;
-      const mx = mouseRef.current.x;
-      const my = mouseRef.current.y;
+      // Arcs
+      arcs.forEach((arc, i) => {
+        const [ax, ay] = [arc.a[0] * W, arc.a[1] * H];
+        const [bx, by] = [arc.b[0] * W, arc.b[1] * H];
+        const [cx, cy] = [arc.c[0] * W, arc.c[1] * H];
 
-      // Draw grid lines
-      ctx.strokeStyle = `rgba(26, 39, 64, ${pulseOpacity})`;
-      ctx.lineWidth = 1;
-      for (let c = 0; c <= cols; c++) {
+        // Base line
         ctx.beginPath();
-        ctx.moveTo(c * CELL, 0);
-        ctx.lineTo(c * CELL, height);
+        ctx.moveTo(ax, ay);
+        ctx.quadraticCurveTo(cx, cy, bx, by);
+        ctx.strokeStyle = `rgba(192, 57, 43, ${0.1 * breath})`;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([]);
         ctx.stroke();
-      }
-      for (let r = 0; r <= rows; r++) {
-        ctx.beginPath();
-        ctx.moveTo(0, r * CELL);
-        ctx.lineTo(width, r * CELL);
-        ctx.stroke();
-      }
 
-      // Draw cursor proximity glow on intersections
-      for (let c = 0; c <= cols; c++) {
-        for (let r = 0; r <= rows; r++) {
-          const px = c * CELL;
-          const py = r * CELL;
-          const dist = Math.hypot(px - mx, py - my);
-          if (dist < 150) {
-            const intensity = (1 - dist / 150) * 0.18;
-            ctx.fillStyle = `rgba(255, 255, 255, ${intensity})`;
-            ctx.fillRect(px - 1, py - 1, 2, 2);
+        // Travelling packet — one per arc, phased
+        const period = 22 + i * 4;
+        const t = ((elapsed + i * period * 0.33) % period) / period;
+        if (t > 0.02 && t < 0.98) {
+          const [px, py] = quadPoint(t, [ax, ay], [cx, cy], [bx, by]);
+
+          // Trailing fade — a few prior points at reduced opacity
+          for (let s = 0; s < 8; s++) {
+            const tt = t - s * 0.012;
+            if (tt < 0) break;
+            const [tx, ty] = quadPoint(
+              tt,
+              [ax, ay],
+              [cx, cy],
+              [bx, by],
+            );
+            const alpha = (1 - s / 8) * 0.55;
+            ctx.beginPath();
+            ctx.arc(tx, ty, 1.6 - s * 0.12, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(192, 57, 43, ${alpha})`;
+            ctx.fill();
           }
+
+          // Head
+          ctx.beginPath();
+          ctx.arc(px, py, 2.4, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(192, 57, 43, 0.95)';
+          ctx.fill();
+
+          // Soft halo
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, 14);
+          grad.addColorStop(0, 'rgba(192, 57, 43, 0.25)');
+          grad.addColorStop(1, 'rgba(192, 57, 43, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(px, py, 14, 0, Math.PI * 2);
+          ctx.fill();
         }
-      }
+      });
+
+      // City anchor dots (still, with breathing ring)
+      cities.forEach(([nx, ny]) => {
+        const x = nx * W;
+        const y = ny * H;
+
+        // Ring
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(192, 57, 43, ${0.16 * breath})`;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+
+        // Dot
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(192, 57, 43, 0.45)';
+        ctx.fill();
+      });
 
       rafRef.current = requestAnimationFrame(draw);
     }
@@ -98,23 +161,38 @@ export default function BreathingGrid() {
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      window.removeEventListener('mousemove', handleMouse);
       ro.disconnect();
     };
   }, [shouldReduce, isMobile]);
 
-  if (shouldReduce) return null;
+  if (shouldReduce) {
+    return (
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          background:
+            'radial-gradient(ellipse at 78% 22%, rgba(192,57,43,0.05) 0%, transparent 45%), radial-gradient(ellipse at 22% 58%, rgba(192,57,43,0.04) 0%, transparent 45%), radial-gradient(ellipse at 76% 82%, rgba(192,57,43,0.04) 0%, transparent 45%)',
+        }}
+      />
+    );
+  }
 
   if (isMobile) {
     return (
       <div
-        style={{
-          position: 'absolute', inset: 0, zIndex: 0,
-          background: 'radial-gradient(ellipse at 30% 40%, rgba(192,57,43,0.04) 0%, transparent 60%), radial-gradient(ellipse at 70% 65%, rgba(192,57,43,0.03) 0%, transparent 50%)',
-          backgroundSize: '200% 200%',
-          animation: 'gradient-drift 14s ease-in-out infinite',
-        }}
         aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          background:
+            'radial-gradient(ellipse at 78% 22%, rgba(192,57,43,0.06) 0%, transparent 50%), radial-gradient(ellipse at 22% 58%, rgba(192,57,43,0.05) 0%, transparent 50%), radial-gradient(ellipse at 76% 82%, rgba(192,57,43,0.05) 0%, transparent 50%)',
+          backgroundSize: '200% 200%',
+          animation: 'gradient-drift 18s ease-in-out infinite',
+        }}
       />
     );
   }
@@ -124,8 +202,12 @@ export default function BreathingGrid() {
       ref={canvasRef}
       aria-hidden="true"
       style={{
-        position: 'absolute', inset: 0, width: '100%', height: '100%',
-        zIndex: 0, pointerEvents: 'none',
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        pointerEvents: 'none',
       }}
     />
   );

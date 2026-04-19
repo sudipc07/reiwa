@@ -34,13 +34,13 @@ export default function LogoCarousel() {
 
   const logoStyle: React.CSSProperties = {
     flexShrink: 0,
-    height: '36px',
+    height: '42px',
     width: 'auto',
-    maxWidth: '110px',
+    maxWidth: '130px',
     objectFit: 'contain',
-    filter: 'grayscale(1)',
-    opacity: 0.55,
-    transition: 'opacity 200ms ease',
+    filter: 'grayscale(1) contrast(0.9)',
+    opacity: 0.6,
+    transition: 'opacity 240ms ease, filter 240ms ease',
   };
 
   return (
@@ -52,12 +52,15 @@ export default function LogoCarousel() {
 
       <div
         aria-hidden="true"
-        style={{ overflow: 'hidden', position: 'relative' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{
+          overflow: 'hidden',
+          position: 'relative',
+          maskImage: 'linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%)',
+        }}
       >
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100px', background: 'linear-gradient(to right, var(--canvas), transparent)', zIndex: 1, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '100px', background: 'linear-gradient(to left, var(--canvas), transparent)', zIndex: 1, pointerEvents: 'none' }} />
 
         {shouldReduce ? (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', alignItems: 'center', padding: '1rem 0' }}>
@@ -76,8 +79,16 @@ export default function LogoCarousel() {
                 src={client.logo}
                 alt={client.name}
                 style={logoStyle}
-                onMouseOver={e => { (e.currentTarget as HTMLImageElement).style.opacity = '1'; }}
-                onMouseOut={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.55'; }}
+                onMouseOver={e => {
+                  const el = e.currentTarget as HTMLImageElement;
+                  el.style.opacity = '1';
+                  el.style.filter = 'grayscale(0) contrast(1)';
+                }}
+                onMouseOut={e => {
+                  const el = e.currentTarget as HTMLImageElement;
+                  el.style.opacity = '0.6';
+                  el.style.filter = 'grayscale(1) contrast(0.9)';
+                }}
               />
             ))}
           </div>

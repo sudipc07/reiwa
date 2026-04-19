@@ -4,31 +4,104 @@
 
 @layer base {
   :root {
-    --canvas:          #F6F3ED;
-    --canvas-dark:     #0F1B2E;
-    --surface:         rgba(255, 255, 255, 0.85);
-    --surface-strong:  rgba(255, 255, 255, 0.94);
-    --surface-dark:    rgba(26, 39, 64, 0.80);
-    --ink:             #1A1A1A;
-    --ink-muted:       #4A4A4A;
-    --ink-subtle:      #7A7A7A;
-    --ink-inverse:     #F6F3ED;
-    --accent:          #C0392B;
-    --accent-hover:    #A93226;
-    --border:          rgba(0, 0, 0, 0.06);
-    --border-dark:     rgba(255, 255, 255, 0.12);
-    --glass-blur:      blur(20px) saturate(1.1);
-    --glass-radius:    24px;
-    --glass-shadow:    0 8px 32px rgba(0, 0, 0, 0.04);
+    /* Canvas & surface */
+    --canvas:            #F4F1EB;
+    --canvas-warm:       #EEE9DF;
+    --canvas-dark:       #0E1A2C;
+    --canvas-darker:     #0A1422;
+    --surface:           rgba(255, 255, 255, 0.78);
+    --surface-strong:    rgba(255, 255, 255, 0.94);
+    --surface-dark:      rgba(26, 39, 64, 0.72);
+
+    /* Ink */
+    --ink:               #16161A;
+    --ink-muted:         #3E3E42;
+    --ink-subtle:        #6B6B72;
+    --ink-faint:         #A8A8AE;
+    --ink-inverse:       #F4F1EB;
+
+    /* Accent — Reiwa red, held back */
+    --accent:            #C0392B;
+    --accent-hover:      #A93226;
+    --accent-deep:       #7A1E17;
+    --accent-wash:       rgba(192, 57, 43, 0.06);
+    --accent-wash-2:     rgba(192, 57, 43, 0.12);
+
+    /* Borders */
+    --border:            rgba(22, 22, 26, 0.08);
+    --border-strong:     rgba(22, 22, 26, 0.14);
+    --border-dark:       rgba(244, 241, 235, 0.10);
+
+    /* Radii */
+    --radius-sm:         8px;
+    --radius-md:         14px;
+    --radius-lg:         20px;
+    --radius-xl:         28px;
+
+    /* Motion */
+    --ease-out-quint:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out:       cubic-bezier(0.65, 0, 0.35, 1);
+    --t-fast:            160ms;
+    --t-base:            280ms;
+    --t-slow:            520ms;
+
+    /* Glass */
+    --glass-blur:        blur(22px) saturate(1.15);
+    --glass-shadow:      0 1px 0 rgba(255,255,255,0.5) inset, 0 14px 40px rgba(16, 26, 44, 0.05);
   }
 
   html {
     background-color: var(--canvas);
     color: var(--ink);
     font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (max-width: 640px) {
+    html { font-size: 17px; }
+  }
+
+  body {
+    position: relative;
+    min-height: 100svh;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  /* Washi paper — fine grain layer */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' seed='4'/><feColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.14 0 0 0 0 0.10 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Washi paper — long fibers + warm variation (a second layer) */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0.38;
+    mix-blend-mode: multiply;
+    background-image:
+      /* irregular warm blotches (paper inconsistency) */
+      radial-gradient(ellipse 55% 30% at 20% 18%, rgba(192, 130, 80, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 82% 62%, rgba(120, 90, 60, 0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 32% 22% at 48% 88%, rgba(192, 100, 60, 0.04) 0%, transparent 60%),
+      /* long washi fibers — stretched noise for streak look */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='fibers'><feTurbulence type='fractalNoise' baseFrequency='0.012 1.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.18 0 0 0 0 0.12 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23fibers)'/></svg>");
+    background-size: auto, auto, auto, 900px 900px;
   }
 
   * {
@@ -38,8 +111,13 @@
   h1, h2, h3, h4 {
     font-family: 'Noto Serif', Georgia, serif;
     font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 1.15;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   a {
@@ -54,13 +132,12 @@
   }
 
   ::selection {
-    background: rgba(192, 57, 43, 0.15);
+    background: rgba(192, 57, 43, 0.18);
+    color: var(--ink);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+    html { scroll-behavior: auto; }
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
@@ -70,54 +147,149 @@
 }
 
 @layer components {
+  /* Glass cards */
   .glass-card {
+    position: relative;
     background: var(--surface);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border);
-    border-radius: var(--glass-radius);
+    border-radius: var(--radius-xl);
     box-shadow: var(--glass-shadow);
   }
 
+  /* Top hairline highlight — gives glass a subtle edge of light */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    pointer-events: none;
+  }
+
   .glass-card-dark {
+    position: relative;
     background: var(--surface-dark);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-dark);
-    border-radius: var(--glass-radius);
-    box-shadow: var(--glass-shadow);
+    border-radius: var(--radius-xl);
+  }
+
+  .glass-card-dark::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244,241,235,0.15), transparent);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    pointer-events: none;
   }
 
   .glass-card-hover {
-    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+    transition: transform var(--t-base) var(--ease-out-quint),
+                border-color var(--t-base) var(--ease-out-quint),
+                box-shadow var(--t-base) var(--ease-out-quint);
   }
 
   .glass-card-hover:hover {
-    transform: translateY(-2px);
-    border-color: rgba(0, 0, 0, 0.12);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 22px 60px rgba(16, 26, 44, 0.09);
   }
 
+  /* Micro label — small uppercase tracking line */
   .micro-label {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-subtle);
   }
 
-  .display-text {
-    font-family: 'Noto Serif', Georgia, serif;
-    font-size: clamp(2.25rem, 5vw, 3.75rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+  /* Kicker — micro label preceded by a small red square mark */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
   }
 
+  .kicker::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    flex-shrink: 0;
+    transform: rotate(45deg);
+  }
+
+  .kicker.light { color: rgba(244, 241, 235, 0.7); }
+
+  /* The thin red rule — Reiwa's motif hairline */
+  .rule {
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .rule-long {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* Display type */
+  .display-text {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: clamp(2.5rem, 6.2vw, 4.75rem);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+  }
+
+  .display-italic {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-muted);
+  }
+
+  /* Serif numeral — for section numbering (I, II, 01, 02…) */
+  .serif-numeral {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-faint);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  /* Lead paragraph — the denser Inter intro under the hero */
+  .lead {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(1.125rem, 1.45vw, 1.3125rem);
+    color: var(--ink-muted);
+    line-height: 1.72;
+    letter-spacing: -0.003em;
+    max-width: 56ch;
+  }
+
+  /* Layout */
   .section-pad {
-    padding-top: clamp(4rem, 8vw, 8rem);
-    padding-bottom: clamp(4rem, 8vw, 8rem);
+    padding-top: clamp(4.5rem, 9vw, 8.5rem);
+    padding-bottom: clamp(4.5rem, 9vw, 8.5rem);
   }
 
   .container-narrow {
@@ -128,16 +300,60 @@
     padding-right: clamp(1.5rem, 5vw, 4rem);
   }
 
+  /* Accent link with underline-draw */
   .accent-link {
+    position: relative;
     color: var(--accent);
-    transition: color 150ms ease, opacity 150ms ease;
+    transition: color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .accent-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-base) var(--ease-out-quint);
   }
 
   .accent-link:hover {
     color: var(--accent-hover);
-    opacity: 0.85;
   }
 
+  .accent-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Inline arrow link — used for "→ Meet the bench" style CTAs */
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--accent);
+    transition: color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .arrow-link .arrow {
+    display: inline-block;
+    transition: transform var(--t-base) var(--ease-out-quint);
+  }
+
+  .arrow-link:hover {
+    color: var(--accent-hover);
+  }
+
+  .arrow-link:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Screen-reader only */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -163,4 +379,39 @@
     color: white;
     z-index: 9999;
   }
+
+  /* Decorative serif quote-mark */
+  .serif-quote-mark {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-style: italic;
+    color: var(--accent);
+    opacity: 0.18;
+    line-height: 0.75;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Utilities */
+  .stack-sm { display: flex; flex-direction: column; gap: 0.75rem; }
+  .stack-md { display: flex; flex-direction: column; gap: 1.25rem; }
+  .stack-lg { display: flex; flex-direction: column; gap: 2rem; }
+}
+
+/* Keyframes used across React islands */
+@keyframes gradient-drift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scroll-hint {
+  0%   { transform: scaleY(0);   transform-origin: top; opacity: 0.2; }
+  40%  { transform: scaleY(1);   transform-origin: top; opacity: 1;   }
+  60%  { transform: scaleY(1);   transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0);   transform-origin: bottom; opacity: 0.2; }
 }

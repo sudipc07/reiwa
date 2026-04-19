@@ -3,37 +3,123 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
 import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
 ---
 
-<section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+<section class="section-pad crossroad" style="background: var(--canvas); border-top: 1px solid var(--border);">
   <div class="container-narrow">
     <ScrollReveal client:load>
-      <MicroLabel class="mb-8 block">The crossroad</MicroLabel>
+      <MicroLabel mark class="block" style="margin-bottom: 2rem;">
+        The crossroad
+      </MicroLabel>
 
-      <div style="max-width: 52ch;">
-        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.8; margin-bottom: 1.5rem;">
+      <h2 class="crossroad-headline">
+        If we are the right firm for your situation,<br />
+        <em class="display-italic">we will say so.</em>
+      </h2>
+
+      <div class="stack-md" style="max-width: 56ch; margin-bottom: 3.5rem;">
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.8;">
           Most people find us through a referral — a past client, a shared network, forty years of relationships. If you are reading this, someone who trusts us has probably suggested you do.
         </p>
-        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.8; margin-bottom: 3rem;">
-          If what we have described resembles a moment you are in, the next step is a conversation. Thirty minutes, with Anil or the practitioner whose judgment seems most relevant. No cost, no pitch. If we are the right firm for your situation, we will say so. If we are not, we will say that too.
+        <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.8;">
+          If what we have described resembles a moment you are in, the next step is a conversation. Thirty minutes, with Anil or the practitioner whose judgment seems most relevant. No cost, no pitch. If we are not the right firm, we will say that too.
         </p>
+      </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem;">
-          <a href="mailto:info@reiwaconsultancy.in" class="accent-link" style="font-family: 'Inter', sans-serif; font-size: 1.0625rem; font-weight: 500;">
+      <div class="contact-grid">
+        <div class="contact-channels">
+          <p class="contact-kicker">Or reach us directly</p>
+          <a href="mailto:info@reiwaconsultancy.in" class="contact-email">
             info@reiwaconsultancy.in
           </a>
-          <a href="tel:+919818071196" class="accent-link" style="font-family: 'Inter', sans-serif; font-size: 1.0625rem; font-weight: 500;">
+          <a href="tel:+919818071196" class="contact-phone">
             +91 98180 71196
           </a>
         </div>
 
-        <div style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
-          <p style="font-family: 'Noto Serif', serif; font-style: italic; font-size: 0.9375rem; color: var(--ink-subtle); line-height: 1.6;">
-            Reiwa Consultancy &amp; Management Solutions LLP<br />
-            <span style="font-style: normal; font-family: 'Inter', sans-serif; font-size: 0.875rem;">
-              Assotech Business Cresterra, Sector 135, Noida
-            </span>
+        <div class="contact-colophon" aria-hidden="false">
+          <p class="contact-llp">
+            Reiwa Consultancy &amp; Management Solutions LLP
+          </p>
+          <p class="contact-addr">
+            Unit 914, Tower 1 · Assotech Business Cresterra<br />
+            Sector 135, Noida, Uttar Pradesh 201304
           </p>
         </div>
       </div>
     </ScrollReveal>
   </div>
 </section>
+
+<style>
+  .crossroad-headline {
+    font-family: 'Noto Serif', serif;
+    font-size: clamp(1.875rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.14;
+    max-width: 22ch;
+    letter-spacing: -0.025em;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    margin-bottom: 1rem;
+  }
+
+  .contact-email,
+  .contact-phone {
+    display: block;
+    font-family: 'Noto Serif', serif;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    color: var(--accent);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    transition: color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .contact-email:hover,
+  .contact-phone:hover {
+    color: var(--accent-hover);
+  }
+
+  .contact-llp {
+    font-family: 'Noto Serif', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    letter-spacing: -0.008em;
+  }
+
+  .contact-addr {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    color: var(--ink-subtle);
+    line-height: 1.65;
+    letter-spacing: 0.005em;
+  }
+
+  @media (min-width: 800px) {
+    .contact-grid {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+</style>

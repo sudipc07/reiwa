@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { motion, animate, useReducedMotion } from 'framer-motion';
+import { animate, useReducedMotion } from 'framer-motion';
 import { advisors } from '@/data/advisors';
 
 export default function BenchGlimpse() {
@@ -13,102 +13,139 @@ export default function BenchGlimpse() {
 
   useEffect(() => {
     if (shouldReduce || !trackRef.current) return;
-
     const track = trackRef.current;
     const halfW = track.scrollWidth / 2;
 
     controlsRef.current = animate(track, { x: [0, -halfW] }, {
-      duration: 50,
+      duration: 60,
       ease: 'linear',
       repeat: Infinity,
       repeatType: 'loop',
     });
-
     return () => controlsRef.current?.stop();
   }, [shouldReduce]);
 
   useEffect(() => {
     if (!controlsRef.current) return;
-    if (isHovered) {
-      controlsRef.current.pause();
-    } else {
-      controlsRef.current.play();
-    }
+    if (isHovered) controlsRef.current.pause();
+    else controlsRef.current.play();
   }, [isHovered]);
 
-  const chipStyle: React.CSSProperties = {
+  const chip: React.CSSProperties = {
     flexShrink: 0,
-    width: '140px',
-    padding: '1.25rem 1rem',
-    background: 'var(--surface)',
-    backdropFilter: 'blur(20px) saturate(1.1)',
-    WebkitBackdropFilter: 'blur(20px) saturate(1.1)',
-    border: '1px solid var(--border)',
+    width: '172px',
+    padding: '1.25rem 1rem 1.125rem',
+    background: 'rgba(255,255,255,0.72)',
+    backdropFilter: 'blur(18px) saturate(1.1)',
+    WebkitBackdropFilter: 'blur(18px) saturate(1.1)',
+    border: '1px solid rgba(22,22,26,0.08)',
     borderRadius: '20px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '0.5rem',
+    gap: '0.75rem',
     textAlign: 'center',
+    boxShadow: '0 1px 0 rgba(255,255,255,0.5) inset, 0 6px 22px rgba(16,26,44,0.04)',
   };
 
-  const initialsStyle: React.CSSProperties = {
-    width: '44px',
-    height: '44px',
+  const photoBox: React.CSSProperties = {
+    width: 56,
+    height: 56,
     borderRadius: '50%',
-    background: 'rgba(192,57,43,0.08)',
-    border: '1px solid rgba(192,57,43,0.15)',
+    overflow: 'hidden',
+    flexShrink: 0,
+    border: '1px solid rgba(22,22,26,0.08)',
+    background: 'var(--accent-wash)',
+  };
+
+  const initials: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: 'Noto Serif, serif',
     fontWeight: 600,
-    fontSize: '0.875rem',
+    fontSize: '1rem',
     color: 'var(--accent)',
   };
 
+  const nameStyle: React.CSSProperties = {
+    fontFamily: 'Noto Serif, serif',
+    fontWeight: 600,
+    fontSize: '0.875rem',
+    color: 'var(--ink)',
+    lineHeight: 1.25,
+    letterSpacing: '-0.01em',
+  };
+
+  const roleStyle: React.CSSProperties = {
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.625rem',
+    fontWeight: 500,
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase',
+    color: 'var(--ink-subtle)',
+  };
+
+  const renderChip = (advisor: typeof advisors[number], key: string) => (
+    <div key={key} style={chip}>
+      <div style={photoBox}>
+        {advisor.photo ? (
+          <img
+            src={advisor.photo}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+          />
+        ) : (
+          <div style={initials}>{advisor.initials}</div>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+        <span style={nameStyle}>{advisor.name}</span>
+        <span style={roleStyle}>{advisor.role}</span>
+      </div>
+    </div>
+  );
+
   return (
     <div>
-      {/* Accessible text list (visually hidden) */}
-      <ul style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>
-        {advisors.map(a => <li key={a.id}>{a.name}, {a.title}</li>)}
+      <ul
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {advisors.map(a => (
+          <li key={a.id}>{a.name}, {a.title}</li>
+        ))}
       </ul>
 
       <div
         aria-hidden="true"
-        style={{ overflow: 'hidden', position: 'relative', cursor: 'default' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{
+          overflow: 'hidden',
+          position: 'relative',
+          maskImage: 'linear-gradient(to right, transparent 0, black 96px, black calc(100% - 96px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 96px, black calc(100% - 96px), transparent 100%)',
+        }}
       >
-        {/* Edge fade masks */}
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '80px', background: 'linear-gradient(to right, var(--canvas), transparent)', zIndex: 1, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '80px', background: 'linear-gradient(to left, var(--canvas), transparent)', zIndex: 1, pointerEvents: 'none' }} />
-
         {shouldReduce ? (
-          <div style={{ display: 'flex', gap: '1rem', overflowX: 'auto', padding: '1rem 0', scrollbarWidth: 'none' }}>
-            {advisors.map(advisor => (
-              <div key={advisor.id} style={chipStyle}>
-                {advisor.photo ? (
-                  <img src={advisor.photo} alt="" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
-                ) : (
-                  <div style={initialsStyle}>{advisor.initials}</div>
-                )}
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', lineHeight: 1.3 }}>{advisor.name}</span>
-              </div>
-            ))}
+          <div style={{ display: 'flex', gap: '1rem', overflowX: 'auto', padding: '1.25rem 1.5rem', scrollbarWidth: 'none' }}>
+            {advisors.map(a => renderChip(a, a.id))}
           </div>
         ) : (
-          <div style={{ display: 'flex', gap: '1rem', padding: '1rem 0', width: 'max-content' }} ref={trackRef}>
-            {items.map((advisor, i) => (
-              <div key={`${advisor.id}-${i}`} style={chipStyle}>
-                {advisor.photo ? (
-                  <img src={advisor.photo} alt="" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
-                ) : (
-                  <div style={initialsStyle}>{advisor.initials}</div>
-                )}
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', lineHeight: 1.3 }}>{advisor.name}</span>
-              </div>
-            ))}
+          <div
+            ref={trackRef}
+            style={{ display: 'flex', gap: '1rem', padding: '1.25rem 0', width: 'max-content' }}
+          >
+            {items.map((a, i) => renderChip(a, `${a.id}-${i}`))}
           </div>
         )}
       </div>

@@ -2,13 +2,20 @@
 interface Props {
   class?: string;
   light?: boolean;
+  mark?: boolean; // if true, uses the red-square kicker variant
 }
-const { class: className = '', light = false } = Astro.props;
+const { class: className = '', light = false, mark = false } = Astro.props;
 ---
 
-<span
-  class:list={['micro-label', { 'opacity-60': light }, className]}
-  style={light ? 'color: var(--ink-inverse)' : ''}
->
-  <slot />
-</span>
+{mark ? (
+  <span class:list={['kicker', { light }, className]}>
+    <slot />
+  </span>
+) : (
+  <span
+    class:list={['micro-label', className]}
+    style={light ? 'color: rgba(244,241,235,0.7)' : ''}
+  >
+    <slot />
+  </span>
+)}

@@ -1,85 +1,242 @@
 ---
 const navLinks = [
-  { href: '/', label: 'Home' },
+  { href: '/',         label: 'Home' },
   { href: '/practice', label: 'Practice' },
-  { href: '/bench', label: 'Bench' },
+  { href: '/team',     label: 'Team' },
   { href: '/services', label: 'Services' },
   { href: '/insights', label: 'Insights' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/contact',  label: 'Contact' },
 ];
 ---
 
-<footer style="background: var(--canvas); border-top: 1px solid var(--border); padding: clamp(3rem, 6vw, 5rem) 0 2rem;">
+<footer class="site-footer">
   <div class="container-narrow">
-    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; margin-bottom: 3rem;">
 
-      <!-- Column 1: Logo + tagline -->
-      <div>
-        <a href="/" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; margin-bottom: 1rem;">
-          <img src="/logo-rewa-1-1.png" alt="Reiwa logo" width="36" height="36" style="width: 36px; height: 36px; object-fit: contain;" />
-          <div style="line-height: 1.2;">
-            <div style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 0.875rem; color: var(--ink);">Reiwa Consultancy</div>
-            <div style="font-family: 'Inter', sans-serif; font-size: 0.6875rem; color: var(--ink-subtle); letter-spacing: 0.05em; font-variant: small-caps;">&amp; Management Solutions LLP</div>
-          </div>
+    <!-- Top: three columns -->
+    <div class="footer-grid">
+
+      <div class="col brand-col">
+        <a href="/" class="footer-brand">
+          <img src="/logo-rewa-1-1.png" alt="" width="32" height="32" />
+          <span>
+            <span class="brand-name">Reiwa Consultancy</span>
+            <span class="brand-sub">&amp; Management Solutions LLP</span>
+          </span>
         </a>
-        <p style="font-size: 0.875rem; color: var(--ink-muted); line-height: 1.6; max-width: 28ch;">
+        <p class="brand-tagline">
           A senior advisory practice at the Japan–India–Southeast Asia corridor.
         </p>
       </div>
 
-      <!-- Column 2: Navigation -->
-      <div>
-        <p class="micro-label" style="margin-bottom: 1rem;">Navigation</p>
-        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <div class="col">
+        <p class="col-head">Navigation</p>
+        <ul>
           {navLinks.map(link => (
-            <li>
-              <a href={link.href} style="font-size: 0.875rem; color: var(--ink-muted); text-decoration: none; transition: color 150ms ease;"
-                 onmouseover="this.style.color='var(--ink)'"
-                 onmouseout="this.style.color='var(--ink-muted)'"
-              >{link.label}</a>
-            </li>
+            <li><a href={link.href}>{link.label}</a></li>
           ))}
         </ul>
       </div>
 
-      <!-- Column 3: Contact -->
-      <div>
-        <p class="micro-label" style="margin-bottom: 1rem;">Contact</p>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <a href="mailto:info@reiwaconsultancy.in" style="font-size: 0.875rem; color: var(--ink-muted); text-decoration: none; transition: color 150ms ease;"
-             onmouseover="this.style.color='var(--accent)'"
-             onmouseout="this.style.color='var(--ink-muted)'"
-          >info@reiwaconsultancy.in</a>
-          <a href="tel:+919818071196" style="font-size: 0.875rem; color: var(--ink-muted); text-decoration: none; transition: color 150ms ease;"
-             onmouseover="this.style.color='var(--accent)'"
-             onmouseout="this.style.color='var(--ink-muted)'"
-          >+91 98180 71196</a>
-          <p style="font-size: 0.8125rem; color: var(--ink-subtle); line-height: 1.5; margin-top: 0.25rem;">
-            Unit 914, Tower 1<br />
-            Assotech Business Cresterra<br />
-            Sector 135, Noida, UP 201304
-          </p>
-        </div>
+      <div class="col">
+        <p class="col-head">Reach us</p>
+        <ul>
+          <li><a href="mailto:info@reiwaconsultancy.in">info@reiwaconsultancy.in</a></li>
+          <li><a href="tel:+919818071196">+91 98180 71196</a></li>
+        </ul>
+        <address class="office">
+          Unit 914, Tower 1<br />
+          Assotech Business Cresterra<br />
+          Sector 135, Noida, UP 201304
+        </address>
       </div>
+    </div>
 
+    <!-- Large wordmark signature -->
+    <div class="signature" aria-hidden="true">
+      <span class="signature-wordmark">Reiwa</span>
+      <span class="signature-glyph"></span>
     </div>
 
     <!-- Bottom bar -->
-    <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;">
-      <p style="font-size: 0.75rem; color: var(--ink-subtle);">
-        © {new Date().getFullYear()} Reiwa Consultancy &amp; Management Solutions LLP
-      </p>
-      <p style="font-size: 0.75rem; color: var(--ink-subtle);">
-        Japan · India · SEA
+    <div class="bottom">
+      <p>© {new Date().getFullYear()} Reiwa Consultancy &amp; Management Solutions LLP</p>
+      <p class="region">
+        <span class="bottom-rule"></span>
+        Japan · India · Southeast Asia
       </p>
     </div>
+
   </div>
 </footer>
 
 <style>
+  .site-footer {
+    background: var(--canvas);
+    border-top: 1px solid var(--border);
+    padding-top: clamp(4rem, 8vw, 6rem);
+    padding-bottom: 1.5rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
   @media (min-width: 768px) {
-    footer > div > div:first-of-type {
-      grid-template-columns: 2fr 1fr 1fr !important;
+    .footer-grid {
+      grid-template-columns: 1.6fr 1fr 1.2fr;
+      gap: 3.5rem;
     }
+  }
+
+  .col-head {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-brand img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    display: block;
+    font-family: 'Noto Serif', serif;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  .brand-sub {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    color: var(--ink-subtle);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+
+  .brand-tagline {
+    font-family: 'Noto Serif', serif;
+    font-style: italic;
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    max-width: 34ch;
+  }
+
+  .col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .col ul a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .col ul a:hover { color: var(--accent); }
+
+  .office {
+    margin-top: 1.25rem;
+    font-style: normal;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    color: var(--ink-subtle);
+    line-height: 1.65;
+  }
+
+  /* Signature wordmark */
+  .signature {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    overflow: hidden;
+  }
+
+  .signature-wordmark {
+    font-family: 'Noto Serif', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(4rem, 14vw, 11rem);
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    opacity: 0.06;
+    white-space: nowrap;
+  }
+
+  .signature-glyph {
+    display: inline-block;
+    flex-shrink: 0;
+    width:  clamp(8rem, 18vw, 16rem);
+    aspect-ratio: 746 / 413;
+    background-color: var(--accent);
+    -webkit-mask-image: url('/reiwa-watermark.png');
+            mask-image: url('/reiwa-watermark.png');
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-position: center;
+            mask-position: center;
+    opacity: 0.22;
+  }
+
+  /* Bottom bar */
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--ink-subtle);
+    letter-spacing: 0.02em;
+  }
+
+  .region {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bottom-rule {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--accent);
   }
 </style>

@@ -8,39 +8,178 @@ interface Props {
 const { advisor } = Astro.props;
 ---
 
-<GlassCard hover class="p-8">
-  <div style="display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 1.5rem;">
-    <!-- Photo or initials -->
+<GlassCard hover class="advisor">
+  <div class="advisor-head">
     {advisor.photo ? (
       <img
         src={advisor.photo}
         alt={advisor.name}
-        style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: top; flex-shrink: 0; border: 1px solid var(--border);"
+        class="advisor-photo"
       />
     ) : (
-      <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(192,57,43,0.07); border: 1px solid rgba(192,57,43,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-        <span style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 1.125rem; color: var(--accent);">{advisor.initials}</span>
+      <div class="advisor-initials">
+        <span>{advisor.initials}</span>
       </div>
     )}
-    <div>
-      <p style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-subtle); margin-bottom: 0.25rem; font-family: 'Inter', sans-serif;">{advisor.role}</p>
-      <h2 style="font-family: 'Noto Serif', serif; font-weight: 600; font-size: 1.125rem; color: var(--ink); margin-bottom: 0.125rem; line-height: 1.2;">{advisor.name}</h2>
-      <p style="font-size: 0.875rem; color: var(--ink-muted);">{advisor.title.replace(/^(Partner|Advisor|Principal),\s*/, '')}</p>
+    <div class="advisor-ident">
+      <p class="advisor-role">{advisor.role}</p>
+      <h2 class="advisor-name">{advisor.name}</h2>
+      <p class="advisor-title">{advisor.title.replace(/^(Partner|Advisor|Principal),\s*/, '')}</p>
     </div>
   </div>
 
-  <p style="font-size: 0.875rem; color: var(--ink-subtle); font-style: italic; margin-bottom: 1.5rem; line-height: 1.5; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">{advisor.credential}</p>
+  <div class="advisor-credential-wrap">
+    <span class="advisor-rule" aria-hidden="true"></span>
+    <p class="advisor-credential">{advisor.credential}</p>
+  </div>
 
-  <div style="display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 1.5rem;">
+  <div class="advisor-bio">
     {advisor.bio.map(para => (
-      <p style="font-size: 0.9375rem; color: var(--ink-muted); line-height: 1.7;">{para}</p>
+      <p>{para}</p>
     ))}
   </div>
 
-  <!-- Tags -->
-  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+  <div class="advisor-tags">
     {advisor.tags.map(tag => (
-      <span style="font-size: 0.75rem; font-family: 'Inter', sans-serif; color: var(--ink-subtle); border: 1px solid var(--border); border-radius: 100px; padding: 0.2rem 0.75rem; line-height: 1.6;">{tag}</span>
+      <span class="advisor-tag">{tag}</span>
     ))}
   </div>
 </GlassCard>
+
+<style>
+  :global(.advisor) {
+    padding: 2rem 2rem 1.75rem !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .advisor-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .advisor-photo,
+  .advisor-initials {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .advisor-photo {
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .advisor-initials {
+    background: var(--accent-wash);
+    border-color: rgba(192, 57, 43, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .advisor-initials span {
+    font-family: 'Noto Serif', serif;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--accent);
+  }
+
+  .advisor-ident { min-width: 0; }
+
+  .advisor-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    margin-bottom: 0.375rem;
+  }
+
+  .advisor-name {
+    font-family: 'Noto Serif', serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--ink);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.25rem;
+  }
+
+  .advisor-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+  }
+
+  .advisor-credential-wrap {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .advisor-rule {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--accent);
+    margin-top: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .advisor-credential {
+    font-family: 'Noto Serif', serif;
+    font-style: italic;
+    font-size: 0.9375rem;
+    color: var(--ink-subtle);
+    line-height: 1.55;
+  }
+
+  .advisor-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .advisor-bio p {
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    line-height: 1.75;
+  }
+
+  .advisor-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .advisor-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--ink-subtle);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.25rem 0.75rem;
+    line-height: 1.5;
+    transition: color var(--t-fast) var(--ease-out-quint),
+                border-color var(--t-fast) var(--ease-out-quint);
+  }
+
+  :global(.advisor:hover) .advisor-tag {
+    border-color: var(--border-strong);
+    color: var(--ink-muted);
+  }
+</style>

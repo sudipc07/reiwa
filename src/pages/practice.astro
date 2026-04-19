@@ -2,8 +2,20 @@
 import Base from '@/layouts/Base.astro';
 import GlassCard from '@/components/ui/GlassCard.astro';
 import MicroLabel from '@/components/ui/MicroLabel.astro';
-import DarkSection from '@/components/ui/DarkSection.astro';
 import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+
+const pillars = [
+  { n: '01', body: 'Senior counsel, not senior supervision. The person who scopes the engagement leads it. No handoffs.' },
+  { n: '02', body: 'This corridor takes a lifetime to learn. Our team averages over twenty-five years here. It is the only thing we do.' },
+  { n: '03', body: 'We are selective. We decline engagements where we cannot add disproportionate value. This is a feature.' },
+];
+
+const howWeWork = [
+  'Named practitioner, every engagement.',
+  'A small team, composed per engagement — typically two or three practitioners drawn around the problem.',
+  'We write plainly. A Reiwa memo is legible at 6:30am before a board meeting.',
+  'We are comfortable saying no. We decline engagements where scale firms are better suited.',
+];
 ---
 
 <Base
@@ -14,137 +26,415 @@ import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
   <!-- Hero -->
   <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
     <div class="container-narrow">
-      <MicroLabel class="mb-6 block">The Practice</MicroLabel>
-      <h1 class="display-text" style="margin-bottom: 1.5rem; max-width: 18ch;">
-        A boutique,<br /><em style="font-style: italic; font-weight: 400; color: var(--ink-muted);">by design.</em>
+      <MicroLabel mark class="block" style="margin-bottom: 1.75rem;">The Practice</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 2rem; max-width: 18ch;">
+        A boutique,<br />
+        <em class="display-italic">by design.</em>
       </h1>
-      <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75; max-width: 52ch; margin-bottom: 1.25rem;">
-        Reiwa Consultancy &amp; Management Solutions LLP is not a scaled firm. No associates. No delivery centres. Eleven senior practitioners, a set of practice areas understood deeply, and one rule: every engagement is led personally by a named bench member.
+      <span class="rule" aria-hidden="true" style="display:block; margin-bottom: 2rem;"></span>
+      <p class="lead">
+        Reiwa Consultancy &amp; Management Solutions LLP is not a scaled firm. No junior staff. No delivery centres. A team of senior practitioners, a set of practice areas understood deeply, and one rule: every engagement is led personally by a named team member.
       </p>
     </div>
   </section>
 
-  <!-- Why boutique — 3 cards -->
+  <!-- Three pillars -->
   <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
     <div class="container-narrow">
-      <ScrollReveal client:load>
-        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-          {[
-            {
-              n: '01',
-              body: 'Senior counsel, not senior supervision. The person who scopes the engagement leads it. No handoffs.',
-            },
-            {
-              n: '02',
-              body: 'This corridor takes a lifetime to learn. Our bench averages over twenty-five years here. It is the only thing we do.',
-            },
-            {
-              n: '03',
-              body: 'We are selective. We decline engagements where we cannot add disproportionate value. This is a feature.',
-            },
-          ].map(item => (
-            <GlassCard class="p-8">
-              <p style="font-family: 'Noto Serif', serif; font-size: 2rem; font-weight: 600; color: var(--border); color: rgba(0,0,0,0.12); margin-bottom: 1rem; line-height: 1;">{item.n}</p>
-              <p style="font-size: 1.0625rem; color: var(--ink-muted); line-height: 1.75;">{item.body}</p>
+      <div class="pillars">
+        {pillars.map((p, i) => (
+          <ScrollReveal client:load delay={i * 0.1}>
+            <GlassCard class="pillar">
+              <span class="pillar-num">{p.n}</span>
+              <p class="pillar-body">{p.body}</p>
             </GlassCard>
-          ))}
-        </div>
-      </ScrollReveal>
+          </ScrollReveal>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- Reiwa name — dark section -->
-  <DarkSection>
-    <ScrollReveal client:load>
-      <div style="max-width: 52ch;">
-        <p aria-hidden="true" style="font-family: 'Noto Serif', serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 400; margin-bottom: 0.5rem; opacity: 0.3; letter-spacing: 0.1em;">令和</p>
-        <p style="font-family: 'Noto Serif', serif; font-style: italic; font-size: 1.25rem; color: var(--ink-inverse); opacity: 0.7; margin-bottom: 2rem;">Reiwa — "beautiful harmony"</p>
-        <p style="font-size: 1rem; line-height: 1.8; opacity: 0.75; margin-bottom: 1.25rem;">
-          Reiwa is the name of Japan's current imperial era, which began on 1 May 2019. The characters are drawn from the Man'yōshū — the oldest existing collection of Japanese poetry — and are most often rendered as "beautiful harmony."
-        </p>
-        <p style="font-size: 1rem; line-height: 1.8; opacity: 0.75;">
-          Harmony, not sameness. The work of composing two business cultures into productive partnership is not the work of making them identical. It is the work of finding the interval at which they can play together. We chose the name with care.
-        </p>
-      </div>
-    </ScrollReveal>
-  </DarkSection>
+  <!-- 令和 dark section, elevated -->
+  <section class="reiwa-section">
+    <div class="reiwa-inner container-narrow">
+      <span class="reiwa-glyph" aria-hidden="true"></span>
 
-  <!-- The founder -->
-  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
-    <div class="container-narrow">
       <ScrollReveal client:load>
-        <MicroLabel class="mb-8 block">The Founder</MicroLabel>
-        <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start;">
-          <div>
-            <!-- Photo -->
-            <div style="margin-bottom: 2rem;">
-              <div style="width: 160px; height: 180px; border-radius: 20px; overflow: hidden; border: 1px solid var(--border);">
-                <img
-                  src="/people/Anil-Gupta-rotated.jpg"
-                  alt="Anil Gupta"
-                  style="width: 100%; height: 100%; object-fit: cover; object-position: top center;"
-                />
-              </div>
-            </div>
-            <h2 style="font-family: 'Noto Serif', serif; font-size: 1.625rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; letter-spacing: -0.01em;">Anil Gupta</h2>
-            <p style="font-size: 0.9375rem; color: var(--ink-muted); margin-bottom: 0.25rem;">Director &amp; Principal Consultant</p>
-            <p style="font-size: 0.875rem; color: var(--ink-subtle); font-style: italic; margin-bottom: 2rem;">Former Chairman &amp; Managing Director, NEC Technologies India</p>
-
-            <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 60ch;">
-              <p style="font-size: 1rem; color: var(--ink-muted); line-height: 1.75;">
-                Anil Gupta founded Reiwa after more than four decades at the interface of Japanese and Indian business. He holds a B.Tech from IIT Delhi, completed intensive Japanese-language study at International Christian University in Tokyo, and undertook postgraduate research in computer science at the University of Tsukuba. He is fluent in English and Japanese.
-              </p>
-              <p style="font-size: 1rem; color: var(--ink-muted); line-height: 1.75;">
-                Across thirty-plus years in senior management, Anil served as Vice President of Strategic Alliance, Japan, at HCL Technologies — where he established the NEC–HCL joint venture and drove its growth as CEO. He went on to serve as Chairman and Managing Director of NEC Technologies India.
-              </p>
-              <p style="font-size: 1rem; color: var(--ink-muted); line-height: 1.75;">
-                His background is unusual: alongside his corporate career, he has been a research scholar in computer science, a part-time English and yoga teacher in Japan, and a long-time student of Japanese culture. This breadth is the substrate of his counsel.
-              </p>
-            </div>
+        <div class="reiwa-copy">
+          <MicroLabel mark light class="block" style="margin-bottom: 1.5rem;">The name</MicroLabel>
+          <h2 class="reiwa-heading">
+            Reiwa — <em class="display-italic" style="color: rgba(244,241,235,0.65);">beautiful harmony</em>
+          </h2>
+          <div class="stack-md" style="max-width: 52ch; opacity: 0.82;">
+            <p style="font-size: 1rem; line-height: 1.8;">
+              Reiwa is the name of Japan's current imperial era, which began on 1 May 2019. The characters are drawn from the Man'yōshū — the oldest existing collection of Japanese poetry — and are most often rendered as "beautiful harmony."
+            </p>
+            <p style="font-size: 1rem; line-height: 1.8;">
+              Harmony, not sameness. The work of composing two business cultures into productive partnership is not the work of making them identical. It is the work of finding the interval at which they can play together. We chose the name with care.
+            </p>
           </div>
         </div>
       </ScrollReveal>
     </div>
   </section>
 
-  <!-- How we work — 4 cards -->
-  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+  <!-- Founder — asymmetric layout -->
+  <section class="section-pad founder" style="background: var(--canvas); border-top: 1px solid var(--border);">
     <div class="container-narrow">
+      <MicroLabel mark class="block" style="margin-bottom: 3rem;">The Founder</MicroLabel>
+
       <ScrollReveal client:load>
-        <MicroLabel class="mb-8 block">How we work</MicroLabel>
-        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-          {[
-            'Named practitioner, every engagement.',
-            'A small bench, composed per engagement — typically two or three practitioners drawn around the problem.',
-            'We write plainly. A Reiwa memo is legible at 6:30am before a board meeting.',
-            'We are comfortable saying no. We decline engagements where scale firms are better suited.',
-          ].map(text => (
-            <GlassCard class="p-6">
-              <p style="font-size: 1rem; color: var(--ink-muted); line-height: 1.7;">{text}</p>
-            </GlassCard>
-          ))}
+        <div class="founder-grid">
+          <aside class="founder-identity">
+            <div class="founder-photo">
+              <img
+                src="/people/Anil-Gupta-rotated.jpg"
+                alt="Anil Gupta"
+              />
+            </div>
+            <h2 class="founder-name">Anil Gupta</h2>
+            <p class="founder-role">Director &amp; Principal Consultant</p>
+            <p class="founder-credential">
+              Former Chairman &amp; Managing Director,<br />NEC Technologies India
+            </p>
+            <div class="founder-stats">
+              <div>
+                <span class="stat-num">40+</span>
+                <span class="stat-label">Years at the interface</span>
+              </div>
+              <div>
+                <span class="stat-num">2</span>
+                <span class="stat-label">Languages, fluent</span>
+              </div>
+            </div>
+          </aside>
+
+          <div class="founder-bio">
+            <p>
+              Anil Gupta founded Reiwa after more than four decades at the interface of Japanese and Indian business. He holds a B.Tech from IIT Delhi, completed intensive Japanese-language study at International Christian University in Tokyo, and undertook postgraduate research in computer science at the University of Tsukuba. He is fluent in English and Japanese.
+            </p>
+            <p>
+              Across thirty-plus years in senior management, Anil served as Vice President of Strategic Alliance, Japan, at HCL Technologies — where he established the NEC–HCL joint venture and drove its growth as CEO. He went on to serve as Chairman and Managing Director of NEC Technologies India.
+            </p>
+            <p>
+              His background is unusual: alongside his corporate career, he has been a research scholar in computer science, a part-time English and yoga teacher in Japan, and a long-time student of Japanese culture. This breadth is the substrate of his counsel.
+            </p>
+          </div>
         </div>
       </ScrollReveal>
     </div>
   </section>
 
-  <!-- Founder quote — dark -->
-  <DarkSection>
-    <ScrollReveal client:load>
-      <blockquote style="max-width: 52ch;">
-        <p style="font-family: 'Noto Serif', serif; font-style: italic; font-size: clamp(1.125rem, 2vw, 1.375rem); line-height: 1.75; margin-bottom: 1.5rem; opacity: 0.9;">
-          "The work we do is not consulting. It is translation — between two business cultures that have every reason to work together and, too often, don't quite manage it. Reiwa exists to shorten that distance."
-        </p>
-        <footer style="font-size: 0.875rem; opacity: 0.55; letter-spacing: 0.02em;">— Anil Gupta</footer>
-      </blockquote>
-    </ScrollReveal>
-  </DarkSection>
+  <!-- How we work -->
+  <section class="section-pad" style="background: var(--canvas-warm); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <ScrollReveal client:load>
+        <MicroLabel mark class="block" style="margin-bottom: 2.5rem;">How we work</MicroLabel>
+
+        <ol class="how-list">
+          {howWeWork.map((text, i) => (
+            <li class="how-item">
+              <span class="how-num serif-numeral">{String(i + 1).padStart(2, '0')}</span>
+              <p class="how-body">{text}</p>
+            </li>
+          ))}
+        </ol>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  <!-- Founder quote -->
+  <section class="section-pad founder-quote" style="background: var(--canvas-dark); color: var(--ink-inverse); overflow: hidden;">
+    <div class="container-narrow">
+      <ScrollReveal client:load>
+        <figure class="quote-figure">
+          <span class="quote-mark serif-quote-mark" aria-hidden="true">&ldquo;</span>
+          <blockquote>
+            The work we do is not consulting. It is translation — between two business cultures that have every reason to work together and, too often, don't quite manage it. Reiwa exists to shorten that distance.
+          </blockquote>
+          <figcaption>
+            <span class="attrib-rule" aria-hidden="true"></span>
+            Anil Gupta
+          </figcaption>
+        </figure>
+      </ScrollReveal>
+    </div>
+  </section>
 
 </Base>
 
 <style>
-  @media (min-width: 768px) {
-    .three-grid { grid-template-columns: repeat(3, 1fr) !important; }
-    .four-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 800px) {
+    .pillars { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  }
+
+  :global(.pillar) {
+    padding: 2.25rem 1.75rem 2rem !important;
+  }
+
+  .pillar-num {
+    display: block;
+    font-family: 'Noto Serif', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent);
+    opacity: 0.35;
+    line-height: 1;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .pillar-body {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    line-height: 1.75;
+  }
+
+  /* Reiwa section */
+  .reiwa-section {
+    position: relative;
+    background: var(--canvas-dark);
+    color: var(--ink-inverse);
+    overflow: hidden;
+    padding-top: clamp(5rem, 10vw, 9rem);
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+
+  .reiwa-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .reiwa-glyph {
+    position: absolute;
+    right: clamp(1.5rem, 4vw, 4rem);
+    top: 50%;
+    transform: translateY(-50%);
+    width:  clamp(12rem, 28vw, 24rem);
+    aspect-ratio: 746 / 413;
+    background-color: var(--accent);
+    -webkit-mask-image: url('/reiwa-watermark.png');
+            mask-image: url('/reiwa-watermark.png');
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-position: center;
+            mask-position: center;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .reiwa-copy { max-width: 40rem; position: relative; z-index: 2; }
+
+  .reiwa-heading {
+    font-family: 'Noto Serif', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--ink-inverse);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  /* Founder */
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .founder-grid {
+      grid-template-columns: 260px 1fr;
+      gap: 5rem;
+    }
+
+    .founder-identity {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  .founder-photo {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 4 / 5;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 1.75rem;
+  }
+
+  .founder-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .founder-name {
+    font-family: 'Noto Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.015em;
+  }
+
+  .founder-role {
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.375rem;
+  }
+
+  .founder-credential {
+    font-family: 'Noto Serif', serif;
+    font-size: 0.875rem;
+    color: var(--ink-subtle);
+    font-style: italic;
+    line-height: 1.5;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .founder-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .founder-stats > div { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .stat-num {
+    font-family: 'Noto Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    line-height: 1.3;
+  }
+
+  .founder-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 62ch;
+  }
+
+  .founder-bio p {
+    font-size: 1.0625rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+  }
+
+  /* How we work */
+  .how-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .how-item {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .how-item:last-child { border-bottom: 1px solid var(--border); }
+
+  .how-num {
+    font-size: 1.25rem;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .how-body {
+    font-family: 'Noto Serif', serif;
+    font-size: clamp(1rem, 1.5vw, 1.1875rem);
+    color: var(--ink);
+    line-height: 1.6;
+    max-width: 58ch;
+    letter-spacing: -0.005em;
+  }
+
+  @media (min-width: 720px) {
+    .how-item { grid-template-columns: 4rem 1fr; gap: 2rem; }
+  }
+
+  /* Founder quote */
+  .founder-quote .quote-figure {
+    position: relative;
+    max-width: 56rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .founder-quote .quote-mark {
+    position: absolute;
+    top: -1.5rem;
+    left: -1rem;
+    font-size: clamp(7rem, 14vw, 11rem);
+    color: var(--accent);
+    opacity: 0.24;
+  }
+
+  .founder-quote blockquote {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Serif', serif;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    color: var(--ink-inverse);
+    line-height: 1.45;
+    letter-spacing: -0.012em;
+    max-width: 36ch;
+    opacity: 0.92;
+  }
+
+  .founder-quote figcaption {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .attrib-rule {
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  @media (min-width: 720px) {
+    .founder-quote .quote-mark { top: -2rem; left: -2rem; }
   }
 </style>

@@ -1,0 +1,146 @@
+---
+import Base from '@/layouts/Base.astro';
+import MicroLabel from '@/components/ui/MicroLabel.astro';
+import DarkSection from '@/components/ui/DarkSection.astro';
+import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import AdvisorCard from '@/components/bench/AdvisorCard.astro';
+import { advisors } from '@/data/advisors';
+---
+
+<Base
+  title="The Team — Reiwa Consultancy"
+  description="A senior team with nearly three centuries of combined operating experience at the Japan–India–SEA corridor."
+>
+
+  <!-- Hero -->
+  <section class="section-pad" style="background: var(--canvas); padding-top: clamp(5rem, 10vw, 8rem);">
+    <div class="container-narrow">
+      <MicroLabel mark class="block" style="margin-bottom: 1.75rem;">Core Team &amp; Associates</MicroLabel>
+      <h1 class="display-text" style="margin-bottom: 2rem; max-width: 22ch;">
+        The team.<br />
+        <em class="display-italic">Nearly three centuries, combined.</em>
+      </h1>
+      <span class="rule" aria-hidden="true" style="display:block; margin-bottom: 2rem;"></span>
+      <p class="lead">
+        A Principal anchors the practice. Partners lead domains. Associates specialise deeply. Every member has operated at senior levels in real businesses — not as a consultant, but as an operator.
+      </p>
+    </div>
+  </section>
+
+  <!-- Index strip -->
+  <section style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow" style="padding-top: 2.5rem; padding-bottom: 2.5rem;">
+      <MicroLabel mark class="block" style="margin-bottom: 1.25rem;">Index</MicroLabel>
+      <ul class="bench-index">
+        {advisors.map((a, i) => (
+          <li>
+            <a href={`#${a.id}`}>
+              <span class="idx-num serif-numeral">{String(i + 1).padStart(2, '0')}</span>
+              <span class="idx-name">{a.name}</span>
+              <span class="idx-role">{a.role}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Advisor grid -->
+  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
+    <div class="container-narrow">
+      <div class="advisor-grid" id="advisor-grid">
+        {advisors.map((advisor, i) => (
+          <div id={advisor.id} style="scroll-margin-top: 6rem;">
+            <ScrollReveal client:load delay={Math.min(i * 0.04, 0.24)}>
+              <AdvisorCard advisor={advisor} />
+            </ScrollReveal>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How we compose a team -->
+  <DarkSection>
+    <ScrollReveal client:load>
+      <MicroLabel mark light class="block" style="margin-bottom: 1.5rem;">How we compose a team</MicroLabel>
+      <p style="font-family: 'Noto Serif', serif; font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.4; max-width: 36ch; opacity: 0.9; margin-bottom: 2rem; letter-spacing: -0.015em;">
+        The team composes itself around the problem, not the other way round.
+      </p>
+      <p style="font-size: 1.0625rem; line-height: 1.8; max-width: 56ch; opacity: 0.72;">
+        Most engagements involve two or three members. A Japan market-entry study might draw Anil, Ken, and Tom. A Singapore executive search draws Swati and Prakash. A cross-border acquisition draws Anil, Puneet, and Mukul. The composition depends on the work.
+      </p>
+    </ScrollReveal>
+  </DarkSection>
+
+</Base>
+
+<style>
+  .bench-index {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .bench-index li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bench-index a {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.875rem 0;
+    transition: padding var(--t-fast) var(--ease-out-quint), color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .bench-index a:hover {
+    padding-left: 0.5rem;
+    color: var(--accent);
+  }
+
+  .idx-num {
+    font-size: 0.875rem;
+    color: var(--ink-faint);
+  }
+
+  .idx-name {
+    font-family: 'Noto Serif', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    transition: color var(--t-fast) var(--ease-out-quint);
+  }
+
+  .bench-index a:hover .idx-name { color: var(--accent); }
+
+  .idx-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+  }
+
+  .advisor-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .bench-index { grid-template-columns: 1fr 1fr; gap: 0 3rem; }
+    .bench-index li:nth-last-child(-n+2) { /* keep border on last 2 */ }
+  }
+
+  @media (min-width: 900px) {
+    .advisor-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2rem; }
+    .bench-index { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
