@@ -97,12 +97,30 @@ const isActive = (href: string) =>
     /* Constant layout — no transitions on padding/height. See plan:
        /Users/sudiptohome/.claude/plans/so-what-s-your-plna-snug-island.md */
     padding-bottom: 3rem;
-    background: rgba(246, 243, 237, 0.92);
-    transition: background 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    /* Background itself is transparent. The visible glass layer is on
+       ::before so we can clip its bottom on scroll without reflowing
+       the nav or anything below it. */
+    background: transparent;
   }
 
-  #site-nav[data-scrolled='true'] {
-    background: rgba(246, 243, 237, 0.97);
+  /* Glass background layer — absolute, inside the sticky context.
+     On scroll we pull its bottom up by 28px to match the raised rail,
+     so the nav's visible floor stays close to the demarcation line. */
+  #site-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(246, 243, 237, 0.78);
+    backdrop-filter: blur(10px) saturate(1.08);
+    -webkit-backdrop-filter: blur(10px) saturate(1.08);
+    transition: background 380ms cubic-bezier(0.22, 1, 0.36, 1),
+                bottom 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  #site-nav[data-scrolled='true']::before {
+    background: rgba(246, 243, 237, 0.88);
+    bottom: 28px;
   }
 
 
