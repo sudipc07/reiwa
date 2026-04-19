@@ -90,8 +90,8 @@ export default function CorridorLines() {
         ctx.beginPath();
         ctx.moveTo(ax, ay);
         ctx.quadraticCurveTo(cx, cy, bx, by);
-        ctx.strokeStyle = `rgba(192, 57, 43, ${0.1 * breath})`;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(192, 57, 43, ${0.28 * breath})`;
+        ctx.lineWidth = 1.3;
         ctx.setLineDash([]);
         ctx.stroke();
 
@@ -111,26 +111,26 @@ export default function CorridorLines() {
               [cx, cy],
               [bx, by],
             );
-            const alpha = (1 - s / 8) * 0.55;
+            const alpha = (1 - s / 8) * 0.8;
             ctx.beginPath();
-            ctx.arc(tx, ty, 1.6 - s * 0.12, 0, Math.PI * 2);
+            ctx.arc(tx, ty, 2 - s * 0.14, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(192, 57, 43, ${alpha})`;
             ctx.fill();
           }
 
           // Head
           ctx.beginPath();
-          ctx.arc(px, py, 2.4, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(192, 57, 43, 0.95)';
+          ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(192, 57, 43, 1)';
           ctx.fill();
 
           // Soft halo
-          const grad = ctx.createRadialGradient(px, py, 0, px, py, 14);
-          grad.addColorStop(0, 'rgba(192, 57, 43, 0.25)');
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, 20);
+          grad.addColorStop(0, 'rgba(192, 57, 43, 0.45)');
           grad.addColorStop(1, 'rgba(192, 57, 43, 0)');
           ctx.fillStyle = grad;
           ctx.beginPath();
-          ctx.arc(px, py, 14, 0, Math.PI * 2);
+          ctx.arc(px, py, 20, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -143,14 +143,14 @@ export default function CorridorLines() {
         // Ring
         ctx.beginPath();
         ctx.arc(x, y, 8, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(192, 57, 43, ${0.16 * breath})`;
-        ctx.lineWidth = 0.6;
+        ctx.strokeStyle = `rgba(192, 57, 43, ${0.35 * breath})`;
+        ctx.lineWidth = 1;
         ctx.stroke();
 
         // Dot
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(192, 57, 43, 0.45)';
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(192, 57, 43, 0.8)';
         ctx.fill();
       });
 

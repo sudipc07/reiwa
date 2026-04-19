@@ -108,17 +108,6 @@ const isActive = (href: string) =>
     padding-bottom: 1.25rem;
   }
 
-  /* Washi paper grain — barely there */
-  #site-nav::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle at 18% 20%, rgba(192,57,43,0.035) 0, transparent 42%),
-      radial-gradient(circle at 82% 70%, rgba(0,0,0,0.025) 0, transparent 48%);
-    pointer-events: none;
-    z-index: -1;
-  }
 
   /* Kumiko vertical members — evenly spaced hairlines */
   .shoji-lattice {
@@ -249,7 +238,7 @@ const isActive = (href: string) =>
     z-index: 0;
   }
 
-  .brand:hover .hanko::before {
+  .brand.is-pressing .hanko::before {
     animation: ink-bloom 1400ms var(--ease-out-quint) forwards;
   }
 
@@ -319,7 +308,7 @@ const isActive = (href: string) =>
                 height var(--t-base) var(--ease-out-quint);
   }
 
-  .brand:hover .hanko-plate {
+  .brand.is-pressing .hanko-plate {
     animation: hanko-press 640ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
     box-shadow:
       0 1px 0 rgba(255,255,255,0.95) inset,
@@ -598,4 +587,19 @@ const isActive = (href: string) =>
       mobile.classList.remove('open');
     })
   );
+
+  // Retrigger hanko press animation on every mouseenter (CSS :hover alone
+  // won't restart the keyframes once they've finished under a held cursor).
+  const brand = document.querySelector<HTMLElement>('.brand');
+  brand?.addEventListener('mouseenter', () => {
+    brand.classList.remove('is-pressing');
+    // force reflow so the class re-add triggers a fresh animation
+    void brand.offsetWidth;
+    brand.classList.add('is-pressing');
+  });
+  brand?.addEventListener('animationend', (e) => {
+    if ((e as AnimationEvent).animationName === 'hanko-press') {
+      brand.classList.remove('is-pressing');
+    }
+  });
 </script>

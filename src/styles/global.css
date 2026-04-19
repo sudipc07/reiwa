@@ -70,38 +70,19 @@
     position: relative;
     min-height: 100svh;
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.78;
   }
 
-  /* Washi paper — fine grain layer */
+  /* Warm paper grain — stitched into the canvas */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: 100;
     pointer-events: none;
-    opacity: 0.55;
+    opacity: 0.65;
     mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' seed='4'/><feColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.14 0 0 0 0 0.10 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  }
-
-  /* Washi paper — long fibers + warm variation (a second layer) */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 99;
-    pointer-events: none;
-    opacity: 0.38;
-    mix-blend-mode: multiply;
-    background-image:
-      /* irregular warm blotches (paper inconsistency) */
-      radial-gradient(ellipse 55% 30% at 20% 18%, rgba(192, 130, 80, 0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 30% at 82% 62%, rgba(120, 90, 60, 0.05) 0%, transparent 65%),
-      radial-gradient(ellipse 32% 22% at 48% 88%, rgba(192, 100, 60, 0.04) 0%, transparent 60%),
-      /* long washi fibers — stretched noise for streak look */
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='fibers'><feTurbulence type='fractalNoise' baseFrequency='0.012 1.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.18 0 0 0 0 0.12 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23fibers)'/></svg>");
-    background-size: auto, auto, auto, 900px 900px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.08 0 0 0 0 0.08 0 0 0 0.11 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
   * {
@@ -253,10 +234,10 @@
   /* Display type */
   .display-text {
     font-family: 'Noto Serif', Georgia, serif;
-    font-size: clamp(2.5rem, 6.2vw, 4.75rem);
+    font-size: clamp(2rem, 4.8vw, 3.75rem);
     font-weight: 600;
-    line-height: 1.04;
-    letter-spacing: -0.028em;
+    line-height: 1.15;
+    letter-spacing: -0.022em;
     text-wrap: balance;
   }
 
