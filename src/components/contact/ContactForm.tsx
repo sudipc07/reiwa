@@ -23,9 +23,32 @@ export default function ContactForm() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setStatus('sending');
-    // Submission intentionally unwired — wire to Formspree when ready
-    await new Promise(r => setTimeout(r, 600));
-    setStatus('success');
+
+    try {
+      const res = await fetch('https://formspree.io/f/xpqklngo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          organisation: form.organisation,
+          email: form.email,
+          message: form.message,
+          _subject: `New enquiry — ${form.name}${form.organisation ? ' · ' + form.organisation : ''}`,
+          _replyto: form.email,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus('success');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   }
 
   const labelClass = 'cf-label';
