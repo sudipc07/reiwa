@@ -114,7 +114,7 @@ export default function ContactForm() {
         </div>
 
         <div className="cf-field">
-          <label htmlFor="message" className={labelClass}>What are you working on? <span aria-hidden="true">*</span></label>
+          <label htmlFor="message" className={labelClass}>How can we help you? <span aria-hidden="true">*</span></label>
           <textarea
             id="message"
             aria-required="true" aria-describedby={errors.message ? 'message-error' : undefined}
