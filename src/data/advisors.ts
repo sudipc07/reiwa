@@ -120,7 +120,7 @@ export const advisors: Advisor[] = [
     bio: [
       'Built and led communication functions across Fidelity International, NEC Corporation, American Express, HSBC, and Genpact — spanning the UK, USA, APAC, Japan, and India.',
       'Founder of The Narratives, an integrated marketing and communications agency. At Reiwa, Rohini advises on corporate communications strategy for cross-border businesses — aligning an organisation\'s voice across markets without losing clarity.',
-      'The challenge she addresses is specific: organisations that communicate fluently inside one culture and fall silent, or worse, jar, inside another.',
+      'Her focus is specific: helping organisations carry their voice across cultures, so the message lands in each room it enters.',
     ],
     tags: ['Corporate communications', 'Cross-cultural messaging', 'Brand strategy'],
   },

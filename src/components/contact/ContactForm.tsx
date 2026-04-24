@@ -137,7 +137,7 @@ export default function ContactForm() {
           </button>
           {status === 'error' && (
             <p className={errorClass} style={{ marginTop: '0.75rem' }} role="alert">
-              Something went wrong. Please email us directly at info@reiwaconsultancy.in
+              The form didn’t send. Please email us directly at info@reiwaconsultancy.in
             </p>
           )}
         </div>
