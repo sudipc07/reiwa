@@ -10,12 +10,12 @@ export interface Episode {
 
 export const episodes: Episode[] = [
   {
-    id: 'ep-placeholder',
+    id: 'india-japan-dialogue-2',
     number: 1,
-    title: 'Building Strategic Partnerships between India & Japan',
-    guest: 'Guest Name',
-    affiliation: 'Organisation',
-    description: 'Episode details to be added. Contact Gupta san\'s team for the full episode list.',
-    youtubeId: 'PLACEHOLDER',
+    title: 'Building Strategic Partnerships between India and Japan',
+    guest: 'Anil Gupta',
+    affiliation: 'India–Japan Dialogue with Praveen Dogra',
+    description: 'Founder Anil Gupta in conversation on the India–Japan Dialogue, on what it takes to build partnerships across the Japan–India corridor.',
+    youtubeId: 'ZTiEph7z1ik',
   },
 ];

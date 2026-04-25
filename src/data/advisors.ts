@@ -139,20 +139,6 @@ export const advisors: Advisor[] = [
     tags: ['Technology & R&D', 'Semiconductor industry', 'Sustainability & solar', 'IoT'],
   },
   {
-    id: 'rahul-gupta',
-    name: 'Rahul Gupta',
-    initials: 'RG',
-    role: 'Advisor',
-    title: 'Advisor, HR Strategy & Operations',
-    credential: '14 years of cross-border HR across India, Singapore, Japan, Australia, Vietnam, Indonesia',
-    bio: [
-      'Computer science engineering foundation, human resources practice. Fourteen years across employee lifecycle management, cross-cultural workforce management, and HR compliance in multi-country operations.',
-      'At Reiwa, Rahul works on the HR architecture of cross-border operations — people strategies that work when a team is spread across three timezones and two business cultures.',
-      'His particular focus is the moment when a Japan–India joint venture starts building its combined workforce: a moment where HR decisions made quickly tend to be undone slowly.',
-    ],
-    tags: ['Cross-border HR', 'Workforce strategy', 'Compensation & performance'],
-  },
-  {
     id: 'swati-arora',
     name: 'Swati Arora',
     initials: 'SA',
