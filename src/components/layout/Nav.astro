@@ -629,14 +629,16 @@ const isActive = (href: string) =>
     })
   );
 
-  // Retrigger hanko press animation on every mouseenter (CSS :hover alone
-  // won't restart the keyframes once they've finished under a held cursor).
+  // Retrigger hanko press animation as the cursor moves over the seal.
+  // On every mousemove tick: if not currently animating, restart. The
+  // animationend listener clears the class when the keyframes finish, so
+  // continuous cursor motion produces a continuous chain of stamps; a
+  // stationary cursor stamps once and rests.
   const brand = document.querySelector<HTMLElement>('.brand');
-  brand?.addEventListener('mouseenter', () => {
-    brand.classList.remove('is-pressing');
-    // force reflow so the class re-add triggers a fresh animation
-    void brand.offsetWidth;
-    brand.classList.add('is-pressing');
+  brand?.addEventListener('mousemove', () => {
+    if (!brand.classList.contains('is-pressing')) {
+      brand.classList.add('is-pressing');
+    }
   });
   brand?.addEventListener('animationend', (e) => {
     if ((e as AnimationEvent).animationName === 'hanko-press') {

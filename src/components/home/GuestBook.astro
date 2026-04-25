@@ -13,18 +13,34 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
       <figure class="quote-figure">
         <span class="quote-mark serif-quote-mark" aria-hidden="true">&ldquo;</span>
         <blockquote class="quote-body">
-          Reiwa read the market with us — and the business culture shaping it. We closed the project in three months. It has since grown into a much larger relationship.
+          Reiwa read the market with us, and the business culture shaping it. We closed the project in three months. It has since grown into a much larger relationship.
         </blockquote>
         <figcaption class="quote-attrib">
           <span class="quote-rule" aria-hidden="true"></span>
           Chief Executive, Indian industrial group<span class="quote-asterisk" aria-hidden="true">*</span>
         </figcaption>
       </figure>
+      <p class="quote-footnote">
+        <span aria-hidden="true">*</span> Client name changed for confidentiality.
+      </p>
     </ScrollReveal>
   </div>
 </section>
 
 <style>
+  .quote-footnote {
+    margin-top: 3rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--ink-subtle);
+    letter-spacing: 0.01em;
+  }
+
+  .quote-footnote span {
+    color: var(--accent);
+    margin-right: 2px;
+  }
+
   .quote-asterisk {
     color: var(--accent);
     margin-left: 2px;

@@ -36,9 +36,9 @@ export default function CorridorDiagram() {
         {/* Region label */}
         <text
           x="280"
-          y="26"
+          y="28"
           textAnchor="middle"
-          fontSize="14"
+          fontSize="18"
           fontWeight="500"
           fontFamily="Inter, sans-serif"
           fill="#7A7A7A"
@@ -52,8 +52,8 @@ export default function CorridorDiagram() {
         <line x1="60" y1="300" x2="500" y2="300" stroke="#16161A" strokeWidth="0.5" opacity="0.14" />
         <line x1="60" y1="296" x2="60" y2="304" stroke="#16161A" strokeWidth="0.5" opacity="0.3" />
         <line x1="500" y1="296" x2="500" y2="304" stroke="#16161A" strokeWidth="0.5" opacity="0.3" />
-        <text x="60" y="318" fontSize="11" fontFamily="Inter, sans-serif" fill="#7A7A7A" letterSpacing="0.12em">West</text>
-        <text x="500" y="318" textAnchor="end" fontSize="11" fontFamily="Inter, sans-serif" fill="#7A7A7A" letterSpacing="0.12em">East</text>
+        <text x="60" y="320" fontSize="14" fontFamily="Inter, sans-serif" fill="#7A7A7A" letterSpacing="0.12em">West</text>
+        <text x="500" y="320" textAnchor="end" fontSize="14" fontFamily="Inter, sans-serif" fill="#7A7A7A" letterSpacing="0.12em">East</text>
 
         {/* Arc base lines */}
         {arcs.map(arc => (
@@ -109,7 +109,7 @@ export default function CorridorDiagram() {
             <text
               x={c.x + c.offset[0]}
               y={c.y + c.offset[1]}
-              fontSize="16"
+              fontSize="20"
               fontWeight="500"
               fontFamily="Inter, sans-serif"
               fill="#1A1A1A"
