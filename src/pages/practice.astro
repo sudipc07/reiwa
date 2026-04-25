@@ -3,12 +3,31 @@ import Base from '@/layouts/Base.astro';
 import GlassCard from '@/components/ui/GlassCard.astro';
 import MicroLabel from '@/components/ui/MicroLabel.astro';
 import ScrollReveal from '@/components/ui/ScrollReveal.tsx';
+import PracticePath from '@/components/practice/PracticePath.tsx';
 
-const pillars = [
-  { n: '01', body: 'Senior counsel throughout. The person who scopes the engagement also leads the work.' },
-  { n: '02', body: 'This corridor takes a lifetime to learn. Our team averages over twenty-five years here. It is the only thing we do.' },
-  { n: '03', body: 'We work best when the situation calls for senior judgment, deep corridor experience, and direct engagement.' },
-];
+const vmvStations = [
+  {
+    id: 'vision',
+    kicker: 'Vision',
+    italic: 'Where the work points.',
+    body: 'We envision a deep alliance between global corporations, built on shared strengths. We champion cross-cultural collaboration, sustainable growth, and innovation, working towards a future where our combined efforts inspire excellence worldwide.',
+    kanji: '志',
+  },
+  {
+    id: 'mission',
+    kicker: 'Mission',
+    italic: 'What the work asks.',
+    body: 'To empower organisations to grow confidently in Japan, India and SEA. Through strategic insight, cultural understanding, and trusted partnership, we work alongside our clients to build lasting success across borders.',
+    kanji: '道',
+  },
+  {
+    id: 'values',
+    kicker: 'Values',
+    italic: 'What we hold to.',
+    body: 'We prioritize cultural understanding above all else, because without it, no strategy however sound will take root. Partnership and integrity follow closely: we work alongside our clients, not ahead of them, and we say what we believe.',
+    kanji: '心',
+  },
+] as const;
 
 const howWeWork = [
   'Named practitioner, every engagement.',
@@ -38,21 +57,13 @@ const howWeWork = [
     </div>
   </section>
 
-  <!-- Three pillars -->
-  <section class="section-pad" style="background: var(--canvas); border-top: 1px solid var(--border);">
-    <div class="container-narrow">
-      <div class="pillars">
-        {pillars.map((p, i) => (
-          <ScrollReveal client:load delay={i * 0.1}>
-            <GlassCard class="pillar">
-              <span class="pillar-num">{p.n}</span>
-              <p class="pillar-body">{p.body}</p>
-            </GlassCard>
-          </ScrollReveal>
-        ))}
-      </div>
-    </div>
-  </section>
+  <!-- Vision · Mission · Values along a vertical "way" -->
+  <PracticePath
+    client:load
+    sectionTitle="What guides the work"
+    sectionItalic="Three stations along one path."
+    stations={vmvStations as any}
+  />
 
   <!-- 令和 dark section, elevated -->
   <section class="reiwa-section">
@@ -164,39 +175,6 @@ const howWeWork = [
 </Base>
 
 <style>
-  /* Pillars */
-  .pillars {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  @media (min-width: 800px) {
-    .pillars { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  }
-
-  :global(.pillar) {
-    padding: 2.25rem 1.75rem 2rem !important;
-  }
-
-  .pillar-num {
-    display: block;
-    font-family: 'Noto Serif', serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--accent);
-    opacity: 0.35;
-    line-height: 1;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.01em;
-  }
-
-  .pillar-body {
-    font-size: 1rem;
-    color: var(--ink-muted);
-    line-height: 1.75;
-  }
-
   /* Reiwa section */
   .reiwa-section {
     position: relative;
