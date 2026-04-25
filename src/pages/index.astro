@@ -31,4 +31,14 @@ import CrossroadSection from '@/components/home/CrossroadSection.astro';
     data-position="bottom-right"
     data-label="Start a conversation"
   ></script>
+
+  <!-- Voxa renders its panel as a 360x520 iframe; the content needs a touch
+       more height so the bottom border + start-voice card don't trigger a
+       scroll. Bump iframe height; safe because the iframe is on our DOM. -->
+  <style is:inline>
+    iframe[src*="yandle.io"] {
+      height: 640px !important;
+      max-height: calc(100vh - 6rem) !important;
+    }
+  </style>
 </Base>
