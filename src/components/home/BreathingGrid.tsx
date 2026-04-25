@@ -77,11 +77,17 @@ export default function CorridorLines() {
       // Slow breathing — 0.85 → 1.0 → 0.85 over 8s
       const breath = 0.85 + 0.15 * (Math.sin((elapsed * Math.PI * 2) / 8) * 0.5 + 0.5);
 
+      // On portrait/narrow viewports the canvas is much taller than wide,
+      // which stretches the triangle vertically. Squeeze y around centre
+      // so the triangle stays roughly in proportion.
+      const squeeze = W < 720 ? 0.55 : 1;
+      const sy = (n: number) => 0.5 + (n - 0.5) * squeeze;
+
       // Arcs
       arcs.forEach((arc, i) => {
-        const [ax, ay] = [arc.a[0] * W, arc.a[1] * H];
-        const [bx, by] = [arc.b[0] * W, arc.b[1] * H];
-        const [cx, cy] = [arc.c[0] * W, arc.c[1] * H];
+        const [ax, ay] = [arc.a[0] * W, sy(arc.a[1]) * H];
+        const [bx, by] = [arc.b[0] * W, sy(arc.b[1]) * H];
+        const [cx, cy] = [arc.c[0] * W, sy(arc.c[1]) * H];
 
         // Base line
         ctx.beginPath();
@@ -135,7 +141,7 @@ export default function CorridorLines() {
       // City anchor dots (still, with breathing ring)
       cities.forEach(([nx, ny]) => {
         const x = nx * W;
-        const y = ny * H;
+        const y = sy(ny) * H;
 
         // Ring
         ctx.beginPath();
