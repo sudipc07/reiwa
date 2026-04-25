@@ -41,4 +41,27 @@ import CrossroadSection from '@/components/home/CrossroadSection.astro';
       max-height: calc(100vh - 6rem) !important;
     }
   </style>
+
+  <!-- Voxa ships the launcher with a chat-bubble SVG. This is voice-first,
+       so swap the icon for a microphone once Voxa injects the button. -->
+  <script is:inline>
+    (function () {
+      var MIC_SVG = '<svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"></rect><path d="M5 10v2a7 7 0 0 0 14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg>';
+      function swap() {
+        var btn = document.querySelector('button[title="Start a conversation"]');
+        if (!btn) return false;
+        if (btn.dataset.iconSwapped === '1') return true;
+        btn.innerHTML = MIC_SVG;
+        btn.dataset.iconSwapped = '1';
+        return true;
+      }
+      if (swap()) return;
+      var obs = new MutationObserver(function () {
+        if (swap()) obs.disconnect();
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+      // Safety: stop observing after 15s in case Voxa never loads.
+      setTimeout(function () { obs.disconnect(); }, 15000);
+    })();
+  </script>
 </Base>
