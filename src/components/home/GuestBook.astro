@@ -6,7 +6,7 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
 <section class="section-pad guest-book" style="background: var(--canvas); border-top: 1px solid var(--border);">
   <div class="container-narrow">
     <ScrollReveal client:load>
-      <MicroLabel mark class="block" style="margin-bottom: 2rem;">
+      <MicroLabel mark class="block" style="margin-bottom: 4rem;">
         From the guest book
       </MicroLabel>
 
@@ -56,17 +56,23 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
 
   .quote-mark {
     position: absolute;
-    top: -3rem;
-    left: -5.5rem;
-    font-size: clamp(7rem, 15vw, 12rem);
+    /* Curly-quote glyph sits in the upper portion of its line box; nudge
+       up so the visible apex aligns with the cap-top of "R". */
+    top: -0.15em;
+    left: 0;
+    /* ~2.5× body so the visible character height matches R cap-height. */
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    line-height: 1;
     opacity: 0.32;
+    color: var(--accent);
   }
 
   .quote-body {
     position: relative;
     z-index: 1;
     margin: 0;
-    padding: 0;
+    /* Indent the body so "Reiwa" starts to the right of the glyph. */
+    padding: 0 0 0 1.6em;
     font-family: 'Noto Serif', serif;
     font-style: italic;
     font-weight: 400;
@@ -74,7 +80,7 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
     color: var(--ink);
     line-height: 1.45;
     letter-spacing: -0.018em;
-    max-width: 36ch;
+    max-width: 40ch;
   }
 
   .quote-attrib {
@@ -98,13 +104,7 @@ import MicroLabel from '@/components/ui/MicroLabel.astro';
   }
 
   @media (max-width: 720px) {
-    .quote-mark {
-      top: -1.5rem;
-      left: -1rem;
-      font-size: clamp(6rem, 16vw, 9rem);
-    }
-    .quote-body {
-      padding-left: 1.5rem;
-    }
+    /* Mobile inherits the same em-based sizing — quote-mark stays the
+       size of "R" and aligned to its top. */
   }
 </style>

@@ -16,11 +16,8 @@ export default function CorridorLines() {
   const rafRef = useRef<number>(0);
   const shouldReduce = useReducedMotion();
 
-  const isMobile =
-    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
-
   useEffect(() => {
-    if (shouldReduce || isMobile) return;
+    if (shouldReduce) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -163,7 +160,7 @@ export default function CorridorLines() {
       cancelAnimationFrame(rafRef.current);
       ro.disconnect();
     };
-  }, [shouldReduce, isMobile]);
+  }, [shouldReduce]);
 
   if (shouldReduce) {
     return (
@@ -175,23 +172,6 @@ export default function CorridorLines() {
           zIndex: 0,
           background:
             'radial-gradient(ellipse at 78% 22%, rgba(192,57,43,0.05) 0%, transparent 45%), radial-gradient(ellipse at 22% 58%, rgba(192,57,43,0.04) 0%, transparent 45%), radial-gradient(ellipse at 76% 82%, rgba(192,57,43,0.04) 0%, transparent 45%)',
-        }}
-      />
-    );
-  }
-
-  if (isMobile) {
-    return (
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 0,
-          background:
-            'radial-gradient(ellipse at 78% 22%, rgba(192,57,43,0.06) 0%, transparent 50%), radial-gradient(ellipse at 22% 58%, rgba(192,57,43,0.05) 0%, transparent 50%), radial-gradient(ellipse at 76% 82%, rgba(192,57,43,0.05) 0%, transparent 50%)',
-          backgroundSize: '200% 200%',
-          animation: 'gradient-drift 18s ease-in-out infinite',
         }}
       />
     );
