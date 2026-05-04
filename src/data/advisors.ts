@@ -27,7 +27,7 @@ export const advisors: Advisor[] = [
       'Across thirty-plus years in senior management, Anil served as Vice President of Strategic Alliance, Japan, at HCL Technologies, where he established the NEC–HCL joint venture and drove its growth as CEO. He went on to serve as Chairman and Managing Director of NEC Technologies India.',
       'His background is unusual: alongside his corporate career, he has been a research scholar, a part-time English and yoga teacher in Japan, and a long-time student of Japanese culture and society. This breadth is the substrate of his counsel. He is sought out particularly for his read of senior Japanese executives, a read grounded in four decades of working with them, in their language.',
     ],
-    tags: ['Japan–India strategy', 'Cross-border M&A', 'Market entry', 'Senior executive counsel'],
+    tags: ['Japan–India strategy', 'Cross-border M&A', 'Market entry', 'Senior executive advisory'],
     photo: '/people/anil-gupta.jpg',
   },
   {
