@@ -12,6 +12,10 @@ const {
   title = 'Reiwa Consultancy & Management Solutions LLP',
   description = 'A senior advisory practice at the Japan–India–Southeast Asia corridor.',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://reiwaconsultancy.in').href;
+const ogImage = new URL('/og-image.jpg', Astro.site ?? 'https://reiwaconsultancy.in').href;
+const ogImageAlt = 'Reiwa Consultancy & Management Solutions LLP — A senior advisory practice at the Japan–India–Southeast Asia corridor.';
 ---
 
 <!doctype html>
@@ -21,7 +25,29 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/png" href="/logo-rewa-1-1.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Reiwa Consultancy" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Fonts: Inter + Noto Serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
